@@ -9,6 +9,18 @@
 			<outputDirectory>/</outputDirectory>
 			<useProjectArtifact>true</useProjectArtifact>
 			<unpack>true</unpack>
+			<unpackOptions>
+				<excludes>
+					<exclude>META-INF/DEPENDENCIES</exclude>
+					<exclude>META-INF/LICENCE</exclude>
+					<exclude>META-INF/LICENSE</exclude>
+					<exclude>META-INF/LICENSE.txt</exclude>
+					<exclude>META-INF/NOTICE</exclude>
+					<exclude>META-INF/NOTICE.txt</exclude>
+					<exclude>META-INF/license.txt</exclude>
+					<exclude>META-INF/notice.txt</exclude>
+				</excludes>
+			</unpackOptions>
 			<scope>runtime</scope>
 		</dependencySet>
 	</dependencySets>
