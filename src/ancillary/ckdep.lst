@@ -10,7 +10,7 @@ org.apache.commons:commons-csv 1.1 ok
 org.apache.logging.log4j:log4j-api 2.2 ok
 org.apache.logging.log4j:log4j-core 2.2 ok
 org.apache.logging.log4j:log4j-jcl 2.2 ok
-org.evolvis.tartools:background-jobs 1.17.2 ok
+org.evolvis.tartools:background-jobs 1.18 ok
 org.springframework:spring-aop 4.1.4.RELEASE ok
 org.springframework:spring-beans 4.1.4.RELEASE ok
 org.springframework:spring-context 4.1.4.RELEASE ok
