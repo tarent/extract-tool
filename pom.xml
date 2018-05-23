@@ -259,7 +259,7 @@
 				<artifactId>license-maven-plugin</artifactId>
 				<configuration>
 					<basedir>${project.basedir}</basedir>
-					<header>${project.basedir}/src/ancillary/LICENCE.hdr</header>
+					<header>${project.basedir}/src/main/resources/META-INF/LICENCE</header>
 					<quiet>false</quiet>
 					<failIfMissing>true</failIfMissing>
 					<aggregate>true</aggregate>
