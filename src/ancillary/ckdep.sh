@@ -71,5 +71,12 @@ if (( abend )); then
 	exit 1
 fi
 
+# fail a release build if dependency licence review has a to-do item
+[[ $IS_M2RELEASEBUILD = true ]] && \
+    if grep -e ' TO''DO$' -e ' FA''IL$' ckdep.lst; then
+	print -ru2 -- '[ERROR] licence review incomplete'
+	exit 1
+fi
+
 rm -f ckdep.tmp
 exit 0
