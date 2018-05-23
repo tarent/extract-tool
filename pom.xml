@@ -4,7 +4,23 @@
 	<artifactId>extract-tool</artifactId>
 	<version>1.6-SNAPSHOT</version>
 	<packaging>jar</packaging>
-	<name>Extract-Tool</name>
+	<name>${project.groupId}:${project.artifactId}</name>
+	<description>Extract-Tool</description>
+	<url>https://evolvis.org/plugins/scmgit/cgi-bin/gitweb.cgi?p=tartools/extract-tool.git</url>
+	<licenses>
+		<license>
+			<name>MIT licence</name>
+			<url>https://opensource.org/licenses/mit-license.php</url>
+		</license>
+	</licenses>
+	<developers>
+		<developer>
+			<name>Lukas Degener</name>
+			<email>l.degener@tarent.de</email>
+			<organization>⮡ tarent</organization>
+			<organizationUrl>http://www.tarent.de/</organizationUrl>
+		</developer>
+	</developers>
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<sonar.sources>src/main</sonar.sources>
@@ -42,21 +58,20 @@
 		<assertj.version>1.7.1</assertj.version>
 	</properties>
 	<scm>
+		<connection>scm:git:https://evolvis.org/anonscm/git/tartools/extract-tool.git</connection>
 		<developerConnection>scm:git:ssh://maven@evolvis.org/scmrepos/git/tartools/extract-tool.git</developerConnection>
 		<url>https://evolvis.org/plugins/scmgit/cgi-bin/gitweb.cgi?p=tartools/extract-tool.git</url>
 		<tag>HEAD</tag>
 	</scm>
 	<distributionManagement>
-		<repository>
-			<id>tarent-nexus</id>
-			<name>tarent-nexus releases</name>
-			<url>https://repo-bn-01.lan.tarent.de/repository/maven-releases</url>
-		</repository>
 		<snapshotRepository>
-			<id>tarent-nexus</id>
-			<name>tarent-nexus snapshots</name>
-			<url>https://repo-bn-01.lan.tarent.de/repository/maven-snapshots</url>
+			<id>ossrh</id>
+			<url>https://oss.sonatype.org/content/repositories/snapshots</url>
 		</snapshotRepository>
+		<repository>
+			<id>ossrh</id>
+			<url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+		</repository>
 	</distributionManagement>
 	<dependencies>
 		<dependency>
