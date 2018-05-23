@@ -1,12 +1,11 @@
 package de.tarent.extract;
 
+import org.evolvis.tartools.backgroundjobs.BackgroundJobMonitor;
+
 import java.io.PrintWriter;
 import java.io.StringWriter;
 
-import org.evolvis.tartools.backgroundjobs.BackgroundJobMonitor;
-
 public class ConsoleProgressMonitor implements BackgroundJobMonitor {
-
     private final PrintWriter printWriter;
     private int total;
     private int done;
@@ -36,6 +35,7 @@ public class ConsoleProgressMonitor implements BackgroundJobMonitor {
     @Override
     public void announceTotal(final int totalItems) {
         total = totalItems;
+        /* printProgress(); */ // strictly speaking, this is needed
     }
 
     @Override
@@ -52,8 +52,7 @@ public class ConsoleProgressMonitor implements BackgroundJobMonitor {
             final double doneRatio = ((double) done) / ((double) total);
             if ((i) < doneRatio * (barWidth)) {
                 sb.write("=");
-            }
-            else {
+            } else {
                 sb.write(".");
             }
         }
@@ -70,7 +69,6 @@ public class ConsoleProgressMonitor implements BackgroundJobMonitor {
         printWriter.print(sb.toString());
         printWriter.print('\r');
         printWriter.flush();
-
     }
 
     @Override
@@ -78,5 +76,4 @@ public class ConsoleProgressMonitor implements BackgroundJobMonitor {
         done = items;
         printProgress();
     }
-
 }
