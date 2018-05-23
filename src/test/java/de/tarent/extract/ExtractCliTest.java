@@ -1,0 +1,199 @@
+package de.tarent.extract;
+
+import static org.assertj.core.api.Assertions.assertThat;
+
+import java.io.File;
+import java.io.IOException;
+import java.io.PrintStream;
+import java.io.Reader;
+import java.io.Writer;
+import java.nio.charset.Charset;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Properties;
+
+import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.IOUtils;
+import org.junit.Before;
+import org.junit.Rule;
+import org.junit.Test;
+import org.junit.rules.TemporaryFolder;
+
+import de.tarent.extract.utils.ExtractCliException;
+
+public class ExtractCliTest {
+    @Rule
+    public TemporaryFolder tmp = new TemporaryFolder();
+    private File inputFile;
+    private File outputFile;
+    private File home;
+    private Map<String, String> env;
+    private File customPropertiesFile;
+    private File defaultPropertiesFile;
+    private Properties sysProps;
+
+    @Before
+    public void setup() throws IOException {
+        env=new HashMap<String,String>();
+        sysProps = new Properties();
+        inputFile = tmp.newFile();
+        outputFile = tmp.newFile();
+        home=tmp.newFolder();
+        env.put("EXTRACTTOOL_HOME", home.getAbsolutePath());
+        defaultPropertiesFile = new File(home,"extract.properties");
+        customPropertiesFile = tmp.newFile();
+        FileUtils.write(defaultPropertiesFile, "jdbc.foo=bang\n");
+        FileUtils.write(customPropertiesFile, "jdbc.foo=bar\n");
+        FileUtils.write(inputFile, "expected input");
+    }
+
+    @Test
+    public void defaultsToStdIO() throws ExtractCliException, IOException {
+        final ExtractCli cli = new ExtractCli(sysProps,env);
+        assertThat(cli.input()).isSameAs(System.in);
+        assertThat(cli.output()).isSameAs(System.out);
+        assertThat(cli.getOutputFile()).isNull();
+    }
+
+    @Test
+    public void takesFirstNonOptionArgAsInputFile() throws IOException,
+            ExtractCliException {
+        final ExtractCli cli = new ExtractCli(sysProps,env,inputFile.getPath());
+        assertThat(cli.input()).isNotSameAs(System.in);
+        assertThat(cli.output()).isSameAs(System.out);
+        assertThat(cli.getOutputFile()).isNull();
+        assertThat(IOUtils.toString(cli.input())).isEqualTo("expected input");
+    }
+
+    @Test
+    public void supportsWritingToAFile() throws IOException,
+            ExtractCliException {
+        final ExtractCli cli = new ExtractCli(sysProps,env,"-o", outputFile.getPath());
+        assertThat(cli.input()).isSameAs(System.in);
+        final PrintStream output = cli.output();
+        assertThat(output).isNotSameAs(System.out);
+        IOUtils.write("expected output", output);
+        assertThat(cli.getOutputFile()).isEqualTo(outputFile);
+        assertThat(FileUtils.readFileToString(outputFile)).isEqualTo(
+                "expected output");
+    }
+
+    @Test
+    public void supportsReadingWithCustomCharEncoding()
+            throws ExtractCliException, IOException {
+        FileUtils.writeByteArrayToFile(inputFile, new byte[] {
+                (byte) 0x80,
+                (byte) 0xA4
+        });
+        assertThat(readEncoded("cp1252")).isEqualTo("€¤");
+        FileUtils.writeByteArrayToFile(inputFile, new byte[] {
+                (byte) 0xA4
+        });
+        assertThat(readEncoded("ISO-8859-15")).isEqualTo("€");
+    }
+
+    @Test
+    public void supportsWritingWithCustomCharEncoding()
+            throws ExtractCliException, IOException {
+        final byte[] bs = writeEncoded("cp1252", "€¤");
+        assertThat(bs[0]).isEqualTo((byte) 0x80);
+        assertThat(bs[1]).isEqualTo((byte) 0xA4);
+        final byte[] cs = writeEncoded("ISO-8859-15", "€");
+        assertThat(cs[0]).isEqualTo((byte) 0xA4);
+    }
+
+    @Test
+    public void doesNotRelyOnPlatformDefaultCharEncoding() throws ExtractCliException {
+        final String actualCharset = new ExtractCli(sysProps,env).getOutputEncoding();
+        assertThat(actualCharset).isEqualTo("utf-8");
+        assertThat(actualCharset).isNotEqualTo(Charset.defaultCharset().name());
+        assertThat(new ExtractCli(sysProps,env).getInputEncoding()).isEqualTo(actualCharset);
+
+    }
+
+    @Test
+    public void disablesProgressReportWhenInQuietMode()
+            throws ExtractCliException {
+        final ExtractIo cli = new ExtractCli(sysProps,env,"-q");
+        assertThat(cli.getMonitor()).isInstanceOf(DummyMonitor.class);
+    }
+
+    @Test
+    public void canGZipTheOutput() throws ExtractCliException, IOException {
+        final ExtractIo cli = new ExtractCli(sysProps,env,"-z", "-o", outputFile.getPath());
+        final Writer writer = cli.writer();
+        writer.write("hallo gezippte welt");
+        writer.close();
+        assertThat(FileUtils.readFileToByteArray(outputFile)).isEqualTo(
+                bytes(0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+                        0x00, 0xcb, 0x48, 0xcc, 0xc9, 0xc9, 0x57, 0x48, 0x4f,
+                        0xad, 0xca, 0x2c, 0x28, 0x28, 0x49, 0x55, 0x28, 0x4f,
+                        0xcd, 0x29, 0x01, 0x00, 0xf2, 0x5a, 0x06, 0x1a, 0x13,
+                        0x00, 0x00, 0x00));
+
+    }
+
+    @Test
+    public void canLoadPropertiesFromDifferentLocation() throws ExtractCliException{
+        final ExtractIo cli = new ExtractCli(sysProps,env,"-c", customPropertiesFile.getPath());
+        assertThat(cli.getProperties()).isInstanceOf(Properties.class);
+        assertThat(cli.getProperties().get("jdbc.foo")).isEqualTo("bar");
+    }
+
+    @Test
+    public void defaultsToReadingPropertiesFromToolHome() throws ExtractCliException{
+        final ExtractIo cli = new ExtractCli(sysProps,env);
+        assertThat(cli.getProperties()).isInstanceOf(Properties.class);
+        assertThat(cli.getProperties().get("jdbc.foo")).isEqualTo("bang");
+    }
+
+    @Test
+    public void settingToolHomeViaSystemPropertyOverridesSettingViaEnvironment() throws ExtractCliException {
+        env.put("EXTRACTTOOL_HOME", "/mich/gibts/nicht");
+        sysProps.setProperty("extracttool.home", home.getAbsolutePath());
+        final ExtractIo cli = new ExtractCli(sysProps,env);
+        assertThat(cli.getProperties()).isInstanceOf(Properties.class);
+        assertThat(cli.getProperties().get("jdbc.foo")).isEqualTo("bang");
+    }
+
+    @Test
+    public void complainsWhenNeitherToolHomeNorCustomPropertiesAreSet()  {
+        env.remove("EXTRACTTOOL_HOME");
+        try {
+            final ExtractIo cli = new ExtractCli(sysProps,env);
+        } catch (ExtractCliException e) {
+            assertThat(e.getMessage()).contains("'EXTRACTTOOL_HOME'");
+            assertThat(e.getMessage()).contains("'extracttool.home'");
+            assertThat(e.getMessage()).contains("-c");
+        }
+
+    }
+
+    private byte[] bytes(final int... literals) {
+        final byte[] bs = new byte[literals.length];
+        for (int i = 0; i < bs.length; i++) {
+            bs[i] = (byte) literals[i];
+        }
+        return bs;
+    }
+
+    private byte[] writeEncoded(final String enc, final String str)
+            throws ExtractCliException, IOException {
+        final ExtractIo cli = new ExtractCli(sysProps,env,"-o", outputFile.getPath(), "-O",
+                enc, inputFile.getPath());
+        final Writer writer = cli.writer();
+        writer.write(str);
+        writer.close();
+        final byte[] bs = FileUtils.readFileToByteArray(outputFile);
+        return bs;
+    }
+
+    private String readEncoded(final String enc) throws IOException,
+            ExtractCliException {
+        final Reader reader = new ExtractCli(sysProps,env,"--input-encoding", enc,
+                inputFile.getPath()).reader();
+        final String string = IOUtils.toString(reader);
+        reader.close();
+        return string;
+    }
+}

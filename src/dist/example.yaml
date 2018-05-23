@@ -1,0 +1,286 @@
+{
+  "mappings": {
+    "ABSCHLUSSBERICHTDATUM": {
+      "extractWith": "de.tarent.extract.DateExtractor",
+      "mapTo": ":abschlussbericht.datum"
+    },
+    "AUTOR_HRSG": {
+      "mapTo": "abschlussbericht.publikationen[].autorHrsg"
+    },
+    "DOCUMENTID": {
+      "mapTo": "id+"
+    },
+    "FOLGE_ANZ": {
+      "mapTo": "abschlussbericht.publikationen[].position"
+    },
+    "ID": {
+      "mapTo": "fachklassifikationen[].id+"
+    },
+    "INSBETEILIGUNGBEGINN": {
+      "extractWith": "de.tarent.extract.DateExtractor",
+      "mapTo": "insBeteiligungen[].beginn"
+    },
+    "INSBETEILIGUNGBS": {
+      "mapTo": "insBeteiligungen[].style"
+    },
+    "INSBETEILIGUNGBTRKEY": {
+      "mapTo": "insBeteiligungen[].btrKey"
+    },
+    "INSBETEILIGUNGENDE": {
+      "extractWith": "de.tarent.extract.DateExtractor",
+      "mapTo": "insBeteiligungen[].ende"
+    },
+    "INSBETEILIGUNGID": {
+      "mapTo": "insBeteiligungen[].institutionId"
+    },
+    "INSBUNDESLANDKEY": {
+      "mapTo": "institutionen[].bundesland"
+    },
+    "INSEINRICHTUNGSARTID": {
+      "mapTo": "institutionen[].einrichtungsart"
+    },
+    "INSID": {
+      "mapTo": "institutionen[].id#"
+    },
+    "INSKURZDE": {
+      "mapTo": "institutionen[]:nameRoot.de"
+    },
+    "INSKURZEN": {
+      "mapTo": "institutionen[]:nameRoot.en"
+    },
+    "INSLANG": {
+      "mapTo": "institutionen[].namePostanschrift"
+    },
+    "INSNAME": {
+      "mapTo": "institutionen[]:name.de"
+    },
+    "INSNAMEEN": {
+      "mapTo": "institutionen[]:name.en"
+    },
+    "INSORT": {
+      "mapTo": "institutionen[].ort"
+    },
+    "INSROOTID": {
+      "mapTo": "institutionen[].rootId"
+    },
+    "JAHR": {
+      "mapTo": "jahre[]"
+    },
+    "ORT": {
+      "mapTo": "personen[].ort"
+    },
+    "ORTKEY": {
+      "mapTo": "*.ortKey"
+    },
+    "PARTDELETED": {
+      "extractWith": "de.tarent.extract.BooleanExtractor",
+      "mapTo": "*._partDeleted+"
+    },
+    "PARTTYPE": {
+      "mapTo": "*._partType+"
+    },
+    "PERBETEILIGUNGBEGINN": {
+      "extractWith": "de.tarent.extract.DateExtractor",
+      "mapTo": "perBeteiligungen[].beginn"
+    },
+    "PERBETEILIGUNGBS": {
+      "mapTo": "perBeteiligungen[].style"
+    },
+    "PERBETEILIGUNGBTRKEY": {
+      "mapTo": "perBeteiligungen[].btrKey"
+    },
+    "PERBETEILIGUNGENDE": {
+      "extractWith": "de.tarent.extract.DateExtractor",
+      "mapTo": "perBeteiligungen[].ende"
+    },
+    "PERBETEILIGUNGID": {
+      "mapTo": "perBeteiligungen[].personId"
+    },
+    "PERBETEILIGUNGREFERENT": {
+      "extractWith": "de.tarent.extract.BooleanExtractor",
+      "mapTo": "perBeteiligungen[].referent"
+    },
+    "PERBETEILIGUNGVERSTORBEN": {
+      "extractWith": "de.tarent.extract.BooleanExtractor",
+      "mapTo": "perBeteiligungen[].verstorben"
+    },
+    "PERBUNDESLAND": {
+      "mapTo": "personen[].bundesland"
+    },
+    "PERGESCHLECHT": {
+      "mapTo": "personen[].geschlecht"
+    },
+    "PERID": {
+      "mapTo": "personen[].id#"
+    },
+    "PERINSKURZDE": {
+      "mapTo": "personen[]:institution.nameRoot.de"
+    },
+    "PERINSKURZEN": {
+      "mapTo": "personen[]:institution.nameRoot.en"
+    },
+    "PERINSLANG": {
+      "mapTo": "personen[]:institution.namePostanschrift"
+    },
+    "PERLAND": {
+      "mapTo": "personen[].land"
+    },
+    "PERNACHNAME": {
+      "mapTo": "personen[].nachname"
+    },
+    "PERTITELANREDE": {
+      "mapTo": "personen[]:titel.anrede"
+    },
+    "PERTITELNACHNAME": {
+      "mapTo": "personen[]:titel.nachname"
+    },
+    "PERTITELTEILNAME": {
+      "mapTo": "personen[]:titel.teilname"
+    },
+    "PERVORNAME": {
+      "mapTo": "personen[].vorname"
+    },
+    "PLZNACHORT": {
+      "mapTo": "personen[].plzNachOrt"
+    },
+    "PLZVORORT": {
+      "mapTo": "personen[].plzVorOrt"
+    },
+    "PRIORITAET": {
+      "extractWith": "de.tarent.extract.BooleanExtractor",
+      "mapTo": "fachklassifikationen[].prioritaet"
+    },
+    "PRIVATANSCHRIFT": {
+      "extractWith": "de.tarent.extract.BooleanExtractor",
+      "mapTo": "personen[].privatanschrift"
+    },
+    "PRJAARTKEY": {
+      "mapTo": "antragsart"
+    },
+    "PRJABABSTRACTDE": {
+      "mapTo": ":abschlussbericht.abstract.de"
+    },
+    "PRJABABSTRACTEN": {
+      "mapTo": ":abschlussbericht.abstract.en"
+    },
+    "PRJABSTRACTDE": {
+      "mapTo": ":abstract.de"
+    },
+    "PRJABSTRACTEN": {
+      "mapTo": ":abstract.en"
+    },
+    "PRJAZKKEY": {
+      "mapTo": "zusatzkennzeichnungen[]"
+    },
+    "PRJBEGINN": {
+      "extractWith": "de.tarent.extract.DateExtractor",
+      "mapTo": "beginn"
+    },
+    "PRJBETFACHRICHTUNGEN": {
+      "mapTo": "beteiligteFachrichtungen"
+    },
+    "PRJBEWILLIGUNGSSUMME": {
+      "mapTo": "bewilligungssumme"
+    },
+    "PRJENDE": {
+      "extractWith": "de.tarent.extract.DateExtractor",
+      "mapTo": "ende"
+    },
+    "PRJFACHGEBIETKEY": {
+      "mapTo": "fachklassifikationen[].fachgebiet"
+    },
+    "PRJFACHKEY": {
+      "mapTo": "fachklassifikationen[].fach"
+    },
+    "PRJFACHKOLLEGIUMKEY": {
+      "mapTo": "fachklassifikationen[].fachkollegium"
+    },
+    "PRJFOERDERBETRAGAKT": {
+      "mapTo": "foerderbetragAktuell"
+    },
+    "PRJFOERDERBETRAGGESAMT": {
+      "mapTo": "foerderbetragGesamt"
+    },
+    "PRJGERAETEKLASSEIDS": {
+      "mapTo": "geraeteklassen[]"
+    },
+    "PRJGGIEFBEZ": {
+      "mapTo": "grossgeraete[]"
+    },
+    "PRJHASAB": {
+      "extractWith": "de.tarent.extract.BooleanExtractor",
+      "mapTo": "hasAb"
+    },
+    "PRJISRAHMENPROJEKT": {
+      "extractWith": "de.tarent.extract.BooleanExtractor",
+      "mapTo": "isRahmenprojekt"
+    },
+    "PRJISSUBPROJEKT": {
+      "extractWith": "de.tarent.extract.BooleanExtractor",
+      "mapTo": "isTeilprojekt"
+    },
+    "PRJKONTINENT": {
+      "mapTo": "nationaleZuordnungen[].kontinent"
+    },
+    "PRJKURZTITEL": {
+      "mapTo": "kurztitel"
+    },
+    "PRJLANDKEY": {
+      "mapTo": "nationaleZuordnungen[].land"
+    },
+    "PRJPEMUKEY": {
+      "mapTo": ":programmklassifikation.pemu"
+    },
+    "PRJPEOKEY": {
+      "mapTo": ":programmklassifikation.peo"
+    },
+    "PRJPEUKEY": {
+      "mapTo": ":programmklassifikation.peu"
+    },
+    "PRJPGZ": {
+      "mapTo": "gz"
+    },
+    "PRJRAHMENPROJEKTID": {
+      "mapTo": "rahmenprojekt"
+    },
+    "PRJSCHLAGWORTE": {
+      "mapTo": "schlagworte[]"
+    },
+    "PRJTEILKONTINENT": {
+      "mapTo": "nationaleZuordnungen[].teilkontinent"
+    },
+    "PRJTITELDE": {
+      "mapTo": ":titel.de"
+    },
+    "PRJTITELEN": {
+      "mapTo": ":titel.en"
+    },
+    "PRJWWWADRESSE": {
+      "mapTo": "wwwAdresse"
+    },
+    "PSTKEY": {
+      "mapTo": "pstKey"
+    },
+    "PUBJAHR": {
+      "mapTo": "abschlussbericht.publikationen[].jahr"
+    },
+    "SERIALNUMBER": {
+      "mapTo": "*._partSn+"
+    },
+    "SHOWINPROJEKTRESULTENTRY": {
+      "extractWith": "de.tarent.extract.BooleanExtractor",
+      "mapTo": "perBeteiligungen[].showInProjektResultEntry"
+    },
+    "TIMESTAMP": {
+      "extractWith": "de.tarent.extract.DateExtractor",
+      "mapTo": "*.timestamp"
+    },
+    "TITEL": {
+      "mapTo": "abschlussbericht.publikationen[].titel"
+    },
+    "VERWEIS": {
+      "mapTo": "abschlussbericht.publikationen[].verweis"
+    }
+  },
+  "sql": "select * from(\n select\n    ix.*,\n    perins.namepostanschrift as perinslang,\n    perrootname.kurzde as perinskurzde,\n    perrootname.kurzen as perinskurzen,\n    per.titelanrede_id as pertitelanrede,\n    per.titelteilname_id as pertitelteilname,\n    per.titelnachname_id as pertitelnachname,\n    per.geschlecht as pergeschlecht,\n    perbundesland.id as perbundesland,\n    perbundesland.land_id as perland,\n    ins.namepostanschrift as inslang,\n    insrootname.kurzde as inskurzde,\n    insrootname.kurzen as inskurzen,\n    pub.erscheinungsjahr as pubjahr\n  from projekt_index ix\n  left join person per on ix.perid=per.id\n  left join per_kommunikationsumgebung perkom on (perkom.person_id=ix.perid and perkom.defaultumgebung=1)\n  left join ort perort on perort.id=perkom.ort_id\n  left join bundesland perbundesland on perbundesland.id=perort.bundesland_id\n  left join institution perins on perkom.institution_id = perins.id\n  left join institution perroot on perins.rootinstitution_id = perroot.id\n  left join basetext perrootName on perroot.name_id=perrootName.id\n  left join institution ins on ix.insid=ins.id\n  left join institution insroot on ins.rootinstitution_id = insroot.id\n  left join basetext insrootname on insroot.name_id = insrootname.id\n  left join publikation pub on (pub.id=ix.SERIALNUMBER and ix.parttype = 'PUBLIKATION')\n  order by ix.documentid,ix.parttype,ix.serialnumber\n)\n"
+}

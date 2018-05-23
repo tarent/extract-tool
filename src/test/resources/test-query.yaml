@@ -1,0 +1,16 @@
+{
+  "mappings": {
+    "fnarz": {
+      "mapTo": "my-fnarz",
+      "properties": {
+        "bar": "bang",
+        "baz": {
+          "lala": "cool"
+        },
+        "fee": 42,
+        "foo": "42"
+      }
+    }
+  },
+  "sql": "SELECT fnarz FROM knusper WHERE alles ist cool"
+}
