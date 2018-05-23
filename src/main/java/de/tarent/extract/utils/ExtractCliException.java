@@ -28,8 +28,7 @@ public class ExtractCliException extends Exception {
 
     private static String usage(final Options options) {
         final StringWriter out = new StringWriter();
-        new HelpFormatter().printUsage(new PrintWriter(out), 80, "extract",
-                options);
-        return out.toString();
+        new HelpFormatter().printHelp(new PrintWriter(out), 80, "extract", null, options, 2, 2, null, true);
+        return out.toString().trim();
     }
 }

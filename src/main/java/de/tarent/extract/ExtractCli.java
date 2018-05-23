@@ -24,7 +24,6 @@ import org.evolvis.tartools.backgroundjobs.BackgroundJobMonitor;
 import de.tarent.extract.utils.ExtractCliException;
 
 public class ExtractCli implements ExtractIo {
-
     private File inputFile;
     private File outputFile;
     private String outputEncoding = "utf-8";
@@ -68,7 +67,7 @@ public class ExtractCli implements ExtractIo {
         } else if(home!=null){
             properties = loadProperties(options, new File(home,"extract.properties"));
         }
-        if(properties==null){
+        if (properties==null) {
             throw new ExtractCliException(options,"You need to either set the environment variable 'EXTRACTTOOL_HOME' or system property 'extracttool.home'.\n"
                     + "It should point to a directory containing a file 'extract.properties'. \n"
                     + "Alternatively, you can use the -c option to provide a custom properties file.");
@@ -104,12 +103,12 @@ public class ExtractCli implements ExtractIo {
 
     private Options getOptions() {
         final Options options = new Options();
-        options.addOption("q", false, "do not report progress");
-        options.addOption("o", true, "write output to given file");
-        options.addOption("z", false, "gzip the output");
+        options.addOption("c", "configuration", true, "Properties file overriding the default connection settings");
         options.addOption("I", "input-encoding", true, "input encoding to use (Default: UTF-8)");
         options.addOption("O", "output-encoding", true, "output encoding to use (Default: UTF-8)");
-        options.addOption("c", "configuration", true, "Properties file overriding the default connection settings");
+        options.addOption("o", true, "write output to given file");
+        options.addOption("q", false, "do not report progress");
+        options.addOption("z", false, "gzip the output");
         return options;
     }
 
@@ -174,5 +173,4 @@ public class ExtractCli implements ExtractIo {
     public Properties getProperties() {
         return properties;
     }
-
 }
