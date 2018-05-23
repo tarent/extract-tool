@@ -129,6 +129,7 @@ public class Extractor {
                             monitor.reportProgressAbsolute(rownum);
                         }
                     }
+                    monitor.reportProgressAbsolute(rownum);
                     return null;
                 }
             });
