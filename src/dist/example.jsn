@@ -1,0 +1,12 @@
+{
+  "mappings": {
+    "ip": {
+      "mapTo": "IP address"
+    },
+    "ts": {
+      "extractWith": "de.tarent.extract.DateExtractor",
+      "mapTo": "timestamp"
+    }
+  },
+  "sql": "SELECT * FROM log"
+}
