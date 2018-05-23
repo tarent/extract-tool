@@ -5,11 +5,6 @@
 	<version>1.5-SNAPSHOT</version>
 	<packaging>jar</packaging>
 	<name>Extract-Tool</name>
-	<!--
-		TODO:
-		• do something with src/dist/
-		• also build an executable JAR
-	-->
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<sonar.sources>src/main</sonar.sources>
@@ -20,6 +15,7 @@
 		<archiver.copyright>Copyright © 2015–2018 tarent solutions GmbH</archiver.copyright>
 		<java.version>1.8</java.version>
 		<!-- maven plugins -->
+		<maven.assembly.version>2.5.3</maven.assembly.version>
 		<maven.compiler.version>3.5.1</maven.compiler.version>
 		<maven.enforcer.version>1.4.1</maven.enforcer.version>
 		<maven.jacoco.version>0.7.6.201602180812</maven.jacoco.version>
@@ -177,6 +173,14 @@
 					<groupId>com.mycila</groupId>
 					<artifactId>license-maven-plugin</artifactId>
 					<version>${maven.mycila.version}</version>
+				</plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-assembly-plugin</artifactId>
+					<version>${maven.assembly.version}</version>
+					<configuration>
+						<tarLongFileMode>posix</tarLongFileMode>
+					</configuration>
 				</plugin>
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
@@ -349,6 +353,29 @@
 			</plugin>
 			<plugin>
 				<artifactId>maven-jar-plugin</artifactId>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-assembly-plugin</artifactId>
+				<configuration>
+					<descriptors>
+						<descriptor>src/ancillary/assembly.xml</descriptor>
+					</descriptors>
+					<archive>
+						<manifest>
+							<mainClass>de.tarent.extract.Main</mainClass>
+						</manifest>
+					</archive>
+				</configuration>
+				<executions>
+					<execution>
+						<id>dist-assembly</id>
+						<phase>package</phase>
+						<goals>
+							<goal>single</goal>
+						</goals>
+					</execution>
+				</executions>
 			</plugin>
 		</plugins>
 	</build>
