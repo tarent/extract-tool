@@ -1,23 +1,21 @@
 package de.tarent.extract;
 
-import java.sql.SQLException;
-import java.util.Properties;
-
-import javax.sql.DataSource;
-
 import org.apache.commons.csv.CSVFormat;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.PropertySource;
 import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 import org.springframework.core.env.AbstractEnvironment;
 import org.springframework.core.env.Environment;
 import org.springframework.core.env.MapPropertySource;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.datasource.DriverManagerDataSource;
+import org.springframework.jdbc.datasource.SimpleDriverDataSource;
+
+import javax.sql.DataSource;
+import java.sql.SQLException;
+import java.util.Properties;
 
 @Configuration
 @ComponentScan("de.tarent.extract")
@@ -44,8 +42,7 @@ public class SpringConfiguration {
         for (final org.springframework.core.env.PropertySource<?> ps : ((AbstractEnvironment) env)
                 .getPropertySources()) {
             if (ps instanceof MapPropertySource) {
-                for (final String name : ((MapPropertySource) ps)
-                        .getPropertyNames()) {
+                for (final String name : ((MapPropertySource) ps).getPropertyNames()) {
                     final String prefix = "jdbc.";
                     if (name.startsWith(prefix)) {
                         properties.setProperty(name.substring(prefix.length()),
@@ -65,9 +62,9 @@ public class SpringConfiguration {
 
     @Bean
     public DataSource dataSource() throws SQLException {
-        final DriverManagerDataSource ds = new DriverManagerDataSource();
+        final SimpleDriverDataSource ds = new SimpleDriverDataSource();
         ds.setUrl(jdbcUrl);
-        ds.setDriverClassName(jdbcDriver);
+        ds.setDriverClass(Main.getJdbcDriverClass());
         ds.setUsername(jdbcUsername);
         ds.setPassword(jdbcPassword);
 
@@ -84,5 +81,4 @@ public class SpringConfiguration {
     CSVFormat csvFormat() {
         return CSVFormat.DEFAULT;
     }
-
 }

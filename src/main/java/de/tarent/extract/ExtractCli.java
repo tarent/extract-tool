@@ -1,27 +1,17 @@
 package de.tarent.extract;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
-import java.io.PrintStream;
-import java.io.PrintWriter;
-import java.io.Reader;
-import java.io.Writer;
+import de.tarent.extract.utils.ExtractCliException;
+import org.apache.commons.cli.*;
+import org.evolvis.tartools.backgroundjobs.BackgroundJobMonitor;
+
+import java.io.*;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLClassLoader;
+import java.sql.Driver;
 import java.util.Map;
 import java.util.Properties;
 import java.util.zip.GZIPOutputStream;
-
-import org.apache.commons.cli.BasicParser;
-import org.apache.commons.cli.CommandLine;
-import org.apache.commons.cli.CommandLineParser;
-import org.apache.commons.cli.Options;
-import org.apache.commons.cli.ParseException;
-
-import org.evolvis.tartools.backgroundjobs.BackgroundJobMonitor;
-import de.tarent.extract.utils.ExtractCliException;
 
 public class ExtractCli implements ExtractIo {
     private File inputFile;
@@ -29,10 +19,11 @@ public class ExtractCli implements ExtractIo {
     private String outputEncoding = "utf-8";
     private String inputEncoding = "utf-8";
     private Properties properties = null;
+    private ClassLoader jdbcLoader = this.getClass().getClassLoader();
     private final CommandLine cmd;
 
     public ExtractCli(final String... args) throws ExtractCliException {
-        this(System.getProperties(),System.getenv(), args);
+        this(System.getProperties(), System.getenv(), args);
     }
 
     public ExtractCli(Properties sysProps, Map<String, String> env, final String... args) throws ExtractCliException {
@@ -62,13 +53,24 @@ public class ExtractCli implements ExtractIo {
         if (cmd.hasOption('O')) {
             outputEncoding = cmd.getOptionValue('O');
         }
+        if (cmd.hasOption('J')) {
+            final String[] jarNames = cmd.getOptionValue('J').split(":");
+            URL[] jarPaths = new URL[jarNames.length];
+            for (int i = 0; i < jarNames.length; ++i)
+                try {
+                    jarPaths[i] = new File(jarNames[i]).toURI().toURL();
+                } catch (MalformedURLException e) {
+                    throw new ExtractCliException(options, e);
+                }
+            jdbcLoader = new URLClassLoader(jarPaths, this.getClass().getClassLoader());
+        }
         if (cmd.hasOption('c')) {
             properties = loadProperties(options, new File(cmd.getOptionValue('c')));
-        } else if(home!=null){
-            properties = loadProperties(options, new File(home,"extract.properties"));
+        } else if (home != null) {
+            properties = loadProperties(options, new File(home, "extract.properties"));
         }
-        if (properties==null) {
-            throw new ExtractCliException(options,"You need to either set the environment variable 'EXTRACTTOOL_HOME' or system property 'extracttool.home'.\n"
+        if (properties == null) {
+            throw new ExtractCliException(options, "You need to either set the environment variable 'EXTRACTTOOL_HOME' or system property 'extracttool.home'.\n"
                     + "It should point to a directory containing a file 'extract.properties'. \n"
                     + "Alternatively, you can use the -c option to provide a custom properties file.");
         }
@@ -76,10 +78,10 @@ public class ExtractCli implements ExtractIo {
 
     private File home(Properties sysProps, Map<String, String> env) {
         String home = sysProps.getProperty("extracttool.home");
-        if(home==null){
+        if (home == null) {
             home = env.get("EXTRACTTOOL_HOME");
         }
-        if(home==null){
+        if (home == null) {
             return null;
         }
         return new File(home);
@@ -105,6 +107,7 @@ public class ExtractCli implements ExtractIo {
         final Options options = new Options();
         options.addOption("c", "configuration", true, "Properties file overriding the default connection settings");
         options.addOption("I", "input-encoding", true, "input encoding to use (Default: UTF-8)");
+        options.addOption("J", "jdbc-jar", true, "load JDBC driver from JAR file");
         options.addOption("O", "output-encoding", true, "output encoding to use (Default: UTF-8)");
         options.addOption("o", true, "write output to given file");
         options.addOption("q", false, "do not report progress");
@@ -172,5 +175,15 @@ public class ExtractCli implements ExtractIo {
     @Override
     public Properties getProperties() {
         return properties;
+    }
+
+    Class<? extends Driver> loadJdbc(String driverClassName) throws ClassNotFoundException {
+        final Class clazz = Class.forName(driverClassName, true, jdbcLoader);
+        if (clazz == null)
+            throw new ClassNotFoundException("class " + driverClassName + " not found");
+        if (!(Driver.class.isAssignableFrom(clazz)))
+            throw new ClassNotFoundException("class " + driverClassName + " not a JDBC Driver");
+        //noinspection unchecked
+        return clazz;
     }
 }
