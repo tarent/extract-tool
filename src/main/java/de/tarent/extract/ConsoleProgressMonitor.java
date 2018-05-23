@@ -11,6 +11,7 @@ public class ConsoleProgressMonitor implements BackgroundJobMonitor {
     private int done;
     private final int barWidth;
     private int lastLength = 0;
+    private boolean hasEnded = false;
 
     public ConsoleProgressMonitor(final PrintWriter printWriter, final int barWidth) {
         this.printWriter = printWriter;
@@ -68,6 +69,12 @@ public class ConsoleProgressMonitor implements BackgroundJobMonitor {
         lastLength = currentLength;
         printWriter.print(sb.toString());
         printWriter.print('\r');
+        if (done < total) {
+            hasEnded = false;
+        } else if (!hasEnded) {
+            printWriter.print('\n');
+            hasEnded = true;
+        }
         printWriter.flush();
     }
 
