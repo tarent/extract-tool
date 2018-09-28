@@ -9,7 +9,6 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.ResultSetExtractor;
 
 public class DefaultRowFetcher implements RowFetcher {
-
 	final private JdbcTemplate jdbcTemplate;
 
 	public DefaultRowFetcher(JdbcTemplate jdbcTemplate) {
@@ -19,7 +18,7 @@ public class DefaultRowFetcher implements RowFetcher {
 	@Override
 	public void fetch(final ExtractorQuery query, final BackgroundJobMonitor monitor, final RowPrinter printer,
 			final RowProcessor rowProcessor) {
-		
+
 		final String sql = query.getOrderBy()==null ? query.getSql() : query.getSql() + " ORDER BY "+ query.getOrderBy();
 		jdbcTemplate.query(sql, new ResultSetExtractor<Void>() {
 
@@ -37,5 +36,4 @@ public class DefaultRowFetcher implements RowFetcher {
 			}
 		});
 	}
-
 }

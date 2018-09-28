@@ -16,8 +16,6 @@ import org.springframework.jdbc.core.ResultSetExtractor;
 
 @RunWith(MockitoJUnitRunner.class)
 public class DefaultRowFetcherTest {
-
-	
 	@Mock
 	private JdbcTemplate jdbcTemplate;
 	@Mock
@@ -34,7 +32,6 @@ public class DefaultRowFetcherTest {
 	public void setup() {
 		fetcher = new DefaultRowFetcher(jdbcTemplate);
 	}
-	
 
 	@SuppressWarnings("unchecked")
 	@Test
@@ -46,5 +43,4 @@ public class DefaultRowFetcherTest {
 		verify(jdbcTemplate).query(sqlCaptor.capture(), any(ResultSetExtractor.class));
 		assertEquals("SELECT quatsch FROM unsinn ORDER BY foo ASC", sqlCaptor.getValue());
 	}
-
 }

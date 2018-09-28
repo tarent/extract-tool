@@ -9,7 +9,6 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.PreparedStatementCallback;
 
 public class DefaultRowProcessorFactory implements RowProcessorFactory {
-
 	private final JdbcTemplate jdbcTemplate;
 
 	public DefaultRowProcessorFactory(final JdbcTemplate jdbcTemplate) {

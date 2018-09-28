@@ -64,7 +64,7 @@ public class QueryParsingTest {
         assertTrue(properties.get("baz") instanceof Map);
         assertEquals("SELECT fnarz FROM knusper WHERE alles ist cool",descriptor.getSql());
     }
-    
+
     @Test
     public void sameQueryWithOrderBy() throws JsonParseException, JsonMappingException, IOException {
         InputStreamReader reader = new InputStreamReader(getClass().getClassLoader().getResourceAsStream("test-query-with-orderBy.yaml"));
