@@ -40,7 +40,7 @@
 		<commons-cli.version>1.2</commons-cli.version>
 		<commons-io.version>2.4</commons-io.version>
 		<commons-csv.version>1.1</commons-csv.version>
-		<background-jobs.version>1.18</background-jobs.version>
+		<background-jobs.version>1.19-SNAPSHOT</background-jobs.version>
 		<!-- testing -->
 		<mockito1.version>1.10.8</mockito1.version>
 		<junit.version>4.12</junit.version>
