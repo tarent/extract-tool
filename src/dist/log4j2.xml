@@ -1,19 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<Configuration>
-	<Properties>
-		<Property name="log-path">${env:EXTRACTTOOL_HOME}/logs</Property>
-	</Properties>
+<Configuration status="WARN">
 	<Appenders>
-		<Console name="Console" target="SYSTEM_ERR">
+		<Console name="Console" target="SYSTEM_OUT">
 			<PatternLayout pattern="%d{yyyy-MM-dd HH:mm:ss.SSS} %7level (%thread) [%logger] %msg%n"/>
 		</Console>
 	</Appenders>
 	<Loggers>
-		<Logger name="org.springframework" level="warn" additivity="false">
-			<appender-ref ref="Console" level="warn"/>
-		</Logger>
-		<Root level="warn" additivity="false">
-			<appender-ref ref="Console"/>
+		<Root level="ALL">
+			<appender-ref ref="Console" level="WARN"/>
 		</Root>
 	</Loggers>
 </Configuration>

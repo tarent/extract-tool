@@ -5,6 +5,8 @@
 #
 *.iml
 .idea/
+pom.xml.releaseBackup
+release.properties
 target/
 .classpath
 .settings/
