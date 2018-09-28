@@ -1,10 +1,8 @@
 package de.tarent.extract;
 
-import java.io.IOException;
-
 /*-
  * Extract-Tool is Copyright
- *  © 2015, 2016 Lukas Degener (l.degener@tarent.de)
+ *  © 2015, 2016, 2018 Lukas Degener (l.degener@tarent.de)
  *  © 2018 mirabilos (t.glaser@tarent.de)
  *  © 2015 Jens Oberender (j.oberender@tarent.de)
  * Licensor is tarent solutions GmbH, http://www.tarent.de/
@@ -29,6 +27,7 @@ import java.io.IOException;
  * SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
+import java.io.IOException;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.sql.ResultSet;
