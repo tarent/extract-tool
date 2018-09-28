@@ -320,7 +320,7 @@
 						<include>**/*.java</include>
 					</includes>
 					<headerDefinitions>
-						<headerDefinition>${project.basedir}/src/ancillary/myc-javapkg.xml</headerDefinition>
+						<headerDefinition>${project.basedir}/src/main/ancillary/myc-javapkg.xml</headerDefinition>
 					</headerDefinitions>
 					<mapping>
 						<java>JavaPackage_style</java>
@@ -424,7 +424,7 @@
 							<goal>exec</goal>
 						</goals>
 						<configuration>
-							<executable>src/ancillary/ckdep.sh</executable>
+							<executable>src/main/ancillary/ckdep.sh</executable>
 						</configuration>
 					</execution>
 				</executions>
@@ -434,7 +434,7 @@
 				<artifactId>maven-assembly-plugin</artifactId>
 				<configuration>
 					<descriptors>
-						<descriptor>src/ancillary/assembly.xml</descriptor>
+						<descriptor>src/main/ancillary/assembly.xml</descriptor>
 					</descriptors>
 					<archive>
 						<manifest>
