@@ -75,7 +75,7 @@ public class QueryParsingTest {
         assertEquals("42",properties.get("foo"));
         assertEquals(42,properties.get("fee"));
         assertTrue(properties.get("baz") instanceof Map);
-        assertEquals("SELECT fnarz\nFROM knusper\nWHERE alles ist cool\n",descriptor.getSql());
+        assertEquals("SELECT fnarz FROM knusper WHERE alles ist cool",descriptor.getSql());
         assertEquals("fnarz ASC", descriptor.getOrderBy());
     }
 
