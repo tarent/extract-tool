@@ -79,7 +79,7 @@ public class HeaderProcessorTest {
     @Test
     public void itPrintsEmptyRowsIfNoMappingsAreGiven() throws SQLException, IOException {
 
-        final ResultSetValueExtractor[] extractors = new HeaderProcessor(mappings).processHeader(rs, printer);
+        final ResultSetValueExtractor[] extractors = new HeaderProcessor(mappings).processHeader(metadata, printer);
 
         assertThat(printer.toString()).isEqualTo("\n");
         assertThat(extractors).isNotNull();
@@ -90,7 +90,6 @@ public class HeaderProcessorTest {
 
         @Override
         public Object extractValue(final ResultSet rs, final int col) throws SQLException {
-            // TODO Auto-generated method stub
             return null;
         }
 
@@ -131,7 +130,7 @@ public class HeaderProcessorTest {
         columnLabels("bar", "foo");
         mappings.put("FOO", new ColumnMapping("the.foo", FooExtractor.class));
         mappings.put("BAR", new ColumnMapping("the.bar"));
-        final ResultSetValueExtractor[] extractors = new HeaderProcessor(mappings).processHeader(rs, printer);
+        final ResultSetValueExtractor[] extractors = new HeaderProcessor(mappings).processHeader(metadata, printer);
         assertThat(printer.toString()).isEqualTo("the.bar,the.foo\n");
         assertThat(extractors.length).isEqualTo(2);
         assertThat(extractors).doesNotContainNull();
@@ -147,7 +146,7 @@ public class HeaderProcessorTest {
         columnLabels("bar", "foo");
         mappings.put("FOO", new ColumnMapping("the.foo", FooExtractor.class));
         mappings.put("BAR", new ColumnMapping("the.bar", ConfigurableExtractor.class));
-        final ResultSetValueExtractor[] extractors = new HeaderProcessor(mappings, props).processHeader(rs, printer);
+        final ResultSetValueExtractor[] extractors = new HeaderProcessor(mappings, props).processHeader(metadata, printer);
         assertThat(printer.toString()).isEqualTo("the.bar,the.foo\n");
         assertThat(extractors.length).isEqualTo(2);
         assertThat(extractors).doesNotContainNull();
@@ -169,7 +168,7 @@ public class HeaderProcessorTest {
         columnLabels("bar", "foo");
         mappings.put("FOO", new ColumnMapping("the.foo", FooExtractor.class));
         mappings.put("BAR", new ColumnMapping("the.bar", ConfigurableExtractor.class, colProps));
-        final ResultSetValueExtractor[] extractors = new HeaderProcessor(mappings, props).processHeader(rs, printer);
+        final ResultSetValueExtractor[] extractors = new HeaderProcessor(mappings, props).processHeader(metadata, printer);
         assertThat(printer.toString()).isEqualTo("the.bar,the.foo\n");
         assertThat(extractors.length).isEqualTo(2);
         assertThat(extractors).doesNotContainNull();
@@ -194,7 +193,7 @@ public class HeaderProcessorTest {
         columnLabels("bar", "foo");
         mappings.put("FOO", new ColumnMapping("the.foo", FooExtractor.class));
         mappings.put("BAR", new ColumnMapping("the.bar", NestedConfigurableExtractor.class, colProps));
-        final ResultSetValueExtractor[] extractors = new HeaderProcessor(mappings, props).processHeader(rs, printer);
+        final ResultSetValueExtractor[] extractors = new HeaderProcessor(mappings, props).processHeader(metadata, printer);
         assertThat(printer.toString()).isEqualTo("the.bar,the.foo\n");
         assertThat(extractors.length).isEqualTo(2);
         assertThat(extractors).doesNotContainNull();

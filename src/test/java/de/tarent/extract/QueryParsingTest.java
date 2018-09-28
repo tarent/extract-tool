@@ -53,7 +53,7 @@ public class QueryParsingTest {
     }
 
     @Test
-    public void test() throws JsonParseException, JsonMappingException, IOException {
+    public void simpleQueryWithoutOrderBy() throws JsonParseException, JsonMappingException, IOException {
         InputStreamReader reader = new InputStreamReader(getClass().getClassLoader().getResourceAsStream("test-query.yaml"));
         ExtractorQuery descriptor = mapper().readValue(reader,    ExtractorQuery.class);
         Map<String, ?> properties = descriptor.getMappings().get("fnarz").getProperties();
@@ -62,8 +62,23 @@ public class QueryParsingTest {
         assertEquals("42",properties.get("foo"));
         assertEquals(42,properties.get("fee"));
         assertTrue(properties.get("baz") instanceof Map);
-
+        assertEquals("SELECT fnarz FROM knusper WHERE alles ist cool",descriptor.getSql());
     }
+    
+    @Test
+    public void sameQueryWithOrderBy() throws JsonParseException, JsonMappingException, IOException {
+        InputStreamReader reader = new InputStreamReader(getClass().getClassLoader().getResourceAsStream("test-query-with-orderBy.yaml"));
+        ExtractorQuery descriptor = mapper().readValue(reader,    ExtractorQuery.class);
+        Map<String, ?> properties = descriptor.getMappings().get("fnarz").getProperties();
+        assertEquals(4, properties.size());
+        assertEquals("bang",properties.get("bar"));
+        assertEquals("42",properties.get("foo"));
+        assertEquals(42,properties.get("fee"));
+        assertTrue(properties.get("baz") instanceof Map);
+        assertEquals("SELECT fnarz\nFROM knusper\nWHERE alles ist cool\n",descriptor.getSql());
+        assertEquals("fnarz ASC", descriptor.getOrderBy());
+    }
+
     private ObjectMapper mapper() {
         final ObjectMapper mapper = new ObjectMapper(new YAMLFactory());
         mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);

@@ -33,6 +33,7 @@ import java.util.Map;
 public class ExtractorQuery {
 
     private String sql;
+    private String orderBy;
     private Map<String, ColumnMapping> mappings = new HashMap<String, ColumnMapping>();
     private int progressInterval = 500;
 
@@ -59,5 +60,13 @@ public class ExtractorQuery {
     public void setProgressInterval(final int progressInterval) {
         this.progressInterval = progressInterval;
     }
+
+	public String getOrderBy() {
+		return orderBy;
+	}
+
+	public void setOrderBy(String orderBy) {
+		this.orderBy = orderBy;
+	}
 
 }

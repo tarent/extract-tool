@@ -57,123 +57,109 @@ import de.tarent.extract.utils.ExtractorException;
 
 @Component
 public class Extractor {
-    private static final Logger LOGGER = LogManager.getLogger(Extractor.class);
+	private static final Logger LOGGER = LogManager.getLogger(Extractor.class);
 
-    @Autowired
-    JdbcTemplate jdbcTemplate;
+	@Autowired
+	JdbcTemplate jdbcTemplate;
 
-    @Autowired
-    CSVFormat csvFormat = CSVFormat.DEFAULT;
+	@Autowired
+	CSVFormat csvFormat = CSVFormat.DEFAULT;
 
-    public Extractor() {
-        // used by spring
-    }
+	CountStrategy countStrategy;
 
-    public Extractor(final JdbcTemplate jdbcTemplate) {
-        this.jdbcTemplate = jdbcTemplate;
-    }
+	HeaderProcessorFactory headerProcessorFactory = new DefaultHeaderProcessorFactory();
 
-    private ObjectMapper mapper() {
-        final ObjectMapper mapper = new ObjectMapper(new YAMLFactory());
-        mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-        mapper.configure(MapperFeature.AUTO_DETECT_CREATORS, true);
-        mapper.configure(MapperFeature.CAN_OVERRIDE_ACCESS_MODIFIERS, true);
-        mapper.configure(SerializationFeature.FAIL_ON_EMPTY_BEANS, true);
-        return mapper;
-    }
+	RowFetcher rowFetcher;
 
-    private ExtractorQuery loadQuery(final ExtractIo io) {
-        ExtractorQuery descriptor;
-        try {
-            descriptor = mapper().readValue(io.reader(),
-                    ExtractorQuery.class);
-        } catch (final JsonParseException e) {
-            LOGGER.error("Couldn't parse json", e);
-            throw new ExtractorException("Couldn't parse json", e);
-        } catch (final JsonMappingException e) {
-            LOGGER.error("Couldn't map json", e);
-            throw new ExtractorException("Couldn't map json", e);
-        } catch (final IOException e) {
-            LOGGER.error("Could not load configuration", e);
-            throw new ExtractorException("Could not load configuration", e);
-        }
-        return descriptor;
-    }
+	RowProcessorFactory rowProcessorFactory;
 
-    public void run(final ExtractIo io) {
-        run(io, loadQuery(io));
-    }
+	public Extractor() {
+		// used by spring
+	}
 
-    public void run(final ExtractIo io, final ExtractorQuery query) {
-        final BackgroundJobMonitor monitor = io.getMonitor();
-        final CSVPrinter csvPrinter;
-        try {
-            csvPrinter = csvFormat.print(io.writer());
-        } catch (final IOException e) {
-            LOGGER.error("Could not create writer", e);
-            throw new ExtractorException("Could not create writer", e);
-        }
-        final RowPrinter printer = new RowPrinter() {
+	@Autowired
+	public Extractor(final JdbcTemplate jdbcTemplate) {
+		this.jdbcTemplate = jdbcTemplate;
+		this.rowProcessorFactory = new DefaultRowProcessorFactory(jdbcTemplate);
+		this.rowFetcher = new DefaultRowFetcher(jdbcTemplate);
+		this.countStrategy = new DefaultCountStrategy(jdbcTemplate);
+	}
 
-            @Override
-            public void printRow(final Iterable<?> values) throws IOException {
-                csvPrinter.printRecord(values);
-            }
-        };
+	private ObjectMapper mapper() {
+		final ObjectMapper mapper = new ObjectMapper(new YAMLFactory());
+		mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+		mapper.configure(MapperFeature.AUTO_DETECT_CREATORS, true);
+		mapper.configure(MapperFeature.CAN_OVERRIDE_ACCESS_MODIFIERS, true);
+		mapper.configure(SerializationFeature.FAIL_ON_EMPTY_BEANS, true);
+		return mapper;
+	}
 
-        normalizeQuery(query);
+	private ExtractorQuery loadQuery(final ExtractIo io) {
+		ExtractorQuery descriptor;
+		try {
+			descriptor = mapper().readValue(io.reader(), ExtractorQuery.class);
+		} catch (final JsonParseException e) {
+			LOGGER.error("Couldn't parse json", e);
+			throw new ExtractorException("Couldn't parse json", e);
+		} catch (final JsonMappingException e) {
+			LOGGER.error("Couldn't map json", e);
+			throw new ExtractorException("Couldn't map json", e);
+		} catch (final IOException e) {
+			LOGGER.error("Could not load configuration", e);
+			throw new ExtractorException("Could not load configuration", e);
+		}
+		return descriptor;
+	}
 
-        try {
-            final String countSql = "SELECT COUNT(*) FROM (" + query.getSql() + ") alias42__";
+	public void run(final ExtractIo io) {
+		run(io, loadQuery(io));
+	}
 
-            final String sql = "SELECT * FROM (" + query.getSql() + ") alias42__";
+	public void run(final ExtractIo io, final ExtractorQuery query) {
+		final BackgroundJobMonitor monitor = io.getMonitor();
+		final CSVPrinter csvPrinter;
+		try {
+			csvPrinter = csvFormat.print(io.writer());
+		} catch (final IOException e) {
+			LOGGER.error("Could not create writer", e);
+			throw new ExtractorException("Could not create writer", e);
+		}
+		final RowPrinter printer = new RowPrinter() {
 
-            // before fetching the actual rows, fire a query that will produce no results,
-            // but provide us with the column meta data. This allows us to fail early if
-            // our configuration is broken.
-            final RowProcessor rowProcessor = jdbcTemplate.query(sql + " WHERE 0=1", new ResultSetExtractor<RowProcessor>() {
+			@Override
+			public void printRow(final Iterable<?> values) throws IOException {
+				csvPrinter.printRecord(values);
+			}
+		};
 
-                @Override
-                public RowProcessor extractData(final ResultSet rs) throws SQLException, DataAccessException {
-                    final HeaderProcessor headerProcessor = new HeaderProcessor(query.getMappings(),io.getProperties());
-                    ResultSetValueExtractor[] extractors;
-                    extractors = headerProcessor.processHeader(rs, printer);
-                    return new RowProcessor(extractors);
-                }
-            });
+		normalizeQuery(query);
 
-            final Integer total = jdbcTemplate.queryForObject(countSql, Integer.class);
-            monitor.announceTotal(total);
-            monitor.reportProgressAbsolute(0);
-            jdbcTemplate.query(sql, new ResultSetExtractor<Void>() {
+		try {
 
-                @Override
-                public Void extractData(final ResultSet rs) throws SQLException, DataAccessException {
-                    int rownum = 0;
-                    while (rs.next()) {
-                        rowProcessor.processRow(rs, printer);
-                        if (rownum++ % query.getProgressInterval() == 0) {
-                            monitor.reportProgressAbsolute(rownum);
-                        }
-                    }
-                    monitor.reportProgressAbsolute(rownum);
-                    return null;
-                }
-            });
-        } finally {
-            try {
-                csvPrinter.close();
-            } catch (final IOException e) {
-                LOGGER.error("Could not close csv writer", e);
-            }
-        }
-    }
+			final HeaderProcessor headerProcessor = headerProcessorFactory.create(query.getMappings(),
+					io.getProperties());
+			// before fetching the actual rows, fire a query that will produce no results,
+			// but provide us with the column meta data. This allows us to fail early if
+			// our configuration is broken.
+			final RowProcessor rowProcessor = rowProcessorFactory.create(query.getSql(), printer, headerProcessor);
+			final Integer total = countStrategy.count(query);
+			monitor.announceTotal(total);
+			monitor.reportProgressAbsolute(0);
+			rowFetcher.fetch(query, monitor, printer, rowProcessor);
+		} finally {
+			try {
+				csvPrinter.close();
+			} catch (final IOException e) {
+				LOGGER.error("Could not close csv writer", e);
+			}
+		}
+	}
 
-    private void normalizeQuery(final ExtractorQuery query) {
-        final Map<String, ColumnMapping> mappings = new HashMap<String, ColumnMapping>();
-        for (final Entry<String, ColumnMapping> entry : query.getMappings().entrySet()) {
-            mappings.put(entry.getKey().toUpperCase(), entry.getValue());
-        }
-        query.setMappings(mappings);
-    }
+	private void normalizeQuery(final ExtractorQuery query) {
+		final Map<String, ColumnMapping> mappings = new HashMap<String, ColumnMapping>();
+		for (final Entry<String, ColumnMapping> entry : query.getMappings().entrySet()) {
+			mappings.put(entry.getKey().toUpperCase(), entry.getValue());
+		}
+		query.setMappings(mappings);
+	}
 }
