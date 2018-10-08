@@ -39,7 +39,7 @@ else
 	abend=1
 fi
 # analyse Maven dependencies
-(cd ../../.. && mvn -B -P '!test-only-dependencies' dependency:list) 2>&1 | \
+(cd ../../.. && mvn -B -Dskip-test-only-dependencies dependency:list) 2>&1 | \
     tee /dev/stderr | sed -n \
     -e '/:test$/d' \
     -e '/^\[INFO]    org.evolvis.tartools:extract-tool/d' \
