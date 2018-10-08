@@ -1,7 +1,7 @@
 #!/usr/bin/env mksh
 # -*- mode: sh -*-
 #-
-# Copyright © 2016, 2017
+# Copyright © 2016, 2017, 2018
 #	mirabilos <t.glaser@tarent.de>
 #
 # Provided that these terms and disclaimer and all copyright notices
@@ -43,16 +43,22 @@ fi
     tee /dev/stderr | sed -n \
     -e '/:test$/d' \
     -e '/^\[INFO]    org.evolvis.tartools:extract-tool/d' \
-    -e '/^\[INFO]    \([^:]*\):\([^:]*\):jar:\([^:]*\):[^:]*$/s//\1:\2 \3 ok/p' \
+    -e '/^\[INFO]    \([^:]*\):\([^:]*\):jar:\([^:]*\):\([^:]*\)$/s//\1:\2 \3 \4 ok/p' \
     >ckdep.tmp
 # add static dependencies from embedded files, for SecurityWatch
 [[ -s ckdep.inc ]] && cat ckdep.inc >>ckdep.tmp
+# make compile scope superset provided scope
+x=$(sort -u <ckdep.tmp)
+lastline=
+print -r -- "$x" | while IFS= read -r line; do
+	[[ $line = "$lastline" ]] || print -r -- "$line"
+	lastline=${line/ compile / provided }
+done >ckdep.tmp
 # generate file with changed dependencies set to be a to-do item
-sort -uo ckdep.tmp ckdep.tmp
 {
 	comm -13 ckdep.lst ckdep.tmp | sed 's/ ok$/ TO''DO/'
 	comm -12 ckdep.lst ckdep.tmp
-} | sort -o ckdep.tmp
+} | sort -uo ckdep.tmp
 
 # check if the list changed
 if cmp -s ckdep.lst ckdep.tmp; then
