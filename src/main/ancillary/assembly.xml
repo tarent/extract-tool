@@ -40,7 +40,7 @@
 					<exclude>META-INF/notice.txt</exclude>
 				</excludes>
 			</unpackOptions>
-			<scope>test</scope>
+			<scope>provided</scope>
 			<includes>
 				<include>org.apache.logging.log4j:log4j-core</include>
 				<include>org.apache.logging.log4j:log4j-jcl</include>
