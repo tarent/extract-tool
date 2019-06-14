@@ -43,6 +43,7 @@
 			<scope>test</scope>
 			<includes>
 				<include>org.apache.logging.log4j:log4j-core</include>
+				<include>org.apache.logging.log4j:log4j-jcl</include>
 			</includes>
 		</dependencySet>
 	</dependencySets>
