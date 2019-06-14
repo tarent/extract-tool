@@ -7,7 +7,7 @@
 	</Appenders>
 	<Loggers>
 		<Root level="ALL">
-			<appender-ref ref="Console" level="WARN"/>
+			<appender-ref ref="Console" level="${env:LOGLEVEL:-WARN}"/>
 		</Root>
 	</Loggers>
 </Configuration>

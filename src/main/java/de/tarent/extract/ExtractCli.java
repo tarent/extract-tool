@@ -97,9 +97,11 @@ public class ExtractCli implements ExtractIo {
             properties = loadProperties(options, new File(home, "extract.properties"));
         }
         if (properties == null) {
-            throw new ExtractCliException(options, "You need to either set the environment variable 'EXTRACTTOOL_HOME' or system property 'extracttool.home'.\n"
-                    + "It should point to a directory containing a file 'extract.properties'. \n"
-                    + "Alternatively, you can use the -c option to provide a custom properties file.");
+            throw new ExtractCliException(options, "You may set the environment variable 'LOGLEVEL' (default 'WARN').\n" +
+              "You must either set the environment variable 'EXTRACTTOOL_HOME' or the system\n" +
+              "property 'extracttool.home'. It should point to a directory containing a file\n" +
+              "'extract.properties'. Alternatively, you can use the '-c' option to provide a\n" +
+              "custom properties file.");
         }
     }
 
