@@ -8,6 +8,8 @@ commons-io:commons-io 2.4 compile ok
 commons-logging:commons-logging 1.2 compile ok
 org.apache.commons:commons-csv 1.1 compile ok
 org.apache.logging.log4j:log4j-api 2.2 compile ok
+org.apache.logging.log4j:log4j-core 2.2 compile ok
+org.apache.logging.log4j:log4j-jcl 2.2 compile ok
 org.evolvis.tartools:background-jobs 1.23 compile ok
 org.springframework:spring-aop 4.1.4.RELEASE compile ok
 org.springframework:spring-beans 4.1.4.RELEASE compile ok
