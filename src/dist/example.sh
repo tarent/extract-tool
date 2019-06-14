@@ -6,5 +6,5 @@ exec java \
     -Djdbc.password=somepassword \
     -jar extract-tool-*-cli.jar \
     -c /dev/null \
-    -J ~/.m2/repository/org/postgresql/postgresql/42.2.1/postgresql-42.2.1.jar \
+    -J ~/.m2/repository/org/postgresql/postgresql/42.2.5/postgresql-42.2.5.jar \
     example.jsn
