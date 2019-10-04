@@ -44,13 +44,13 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.ResultSetExtractor;
 import org.springframework.stereotype.Component;
 
+import com.fasterxml.jackson.core.JsonFactory;
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.MapperFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
-import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 
 import org.evolvis.tartools.backgroundjobs.BackgroundJobMonitor;
 import de.tarent.extract.utils.ExtractorException;
@@ -86,7 +86,16 @@ public class Extractor {
 	}
 
 	private ObjectMapper mapper() {
-		final ObjectMapper mapper = new ObjectMapper(new YAMLFactory());
+		ObjectMapper mapper;
+		try {
+			final Class<? extends JsonFactory> yaml = Class
+			    .forName("com.fasterxml.jackson.dataformat.yaml.YAMLFactory")
+			    .asSubclass(JsonFactory.class);
+			mapper = new ObjectMapper(yaml.newInstance());
+		} catch (final ClassNotFoundException | IllegalAccessException | InstantiationException e) {
+			LOGGER.debug("YAML support not available, using JSON only", e);
+			mapper = new ObjectMapper();
+		}
 		mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
 		mapper.configure(MapperFeature.AUTO_DETECT_CREATORS, true);
 		mapper.configure(MapperFeature.CAN_OVERRIDE_ACCESS_MODIFIERS, true);

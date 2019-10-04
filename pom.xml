@@ -159,6 +159,8 @@
 			<artifactId>jackson-databind</artifactId>
 			<version>${jackson.version}</version>
 		</dependency>
+		<!-- downstreams may exclude this dependency if they like; -->
+		<!-- not marked <optional/> to include by default -->
 		<dependency>
 			<groupId>com.fasterxml.jackson.dataformat</groupId>
 			<artifactId>jackson-dataformat-yaml</artifactId>
