@@ -207,12 +207,13 @@ public class ExtractCli implements ExtractIo {
     }
 
     Class<? extends Driver> loadJdbc(String driverClassName) throws ClassNotFoundException {
-        final Class clazz = Class.forName(driverClassName, true, jdbcLoader);
+        final Class<? extends Driver> clazz = Class
+          .forName(driverClassName, true, jdbcLoader)
+          .asSubclass(Driver.class);
         if (clazz == null)
             throw new ClassNotFoundException("class " + driverClassName + " not found");
         if (!(Driver.class.isAssignableFrom(clazz)))
             throw new ClassNotFoundException("class " + driverClassName + " not a JDBC Driver");
-        //noinspection unchecked
         return clazz;
     }
 }
