@@ -3,7 +3,7 @@ package de.tarent.extract;
 /*-
  * Extract-Tool is Copyright
  *  © 2015, 2016, 2018 Lukas Degener (l.degener@tarent.de)
- *  © 2018 mirabilos (t.glaser@tarent.de)
+ *  © 2018, 2019 mirabilos (t.glaser@tarent.de)
  *  © 2015 Jens Oberender (j.oberender@tarent.de)
  * Licensor is tarent solutions GmbH, http://www.tarent.de/
  *
