@@ -91,7 +91,7 @@ public class Extractor {
 			final Class<? extends JsonFactory> yaml = Class
 			    .forName("com.fasterxml.jackson.dataformat.yaml.YAMLFactory")
 			    .asSubclass(JsonFactory.class);
-			mapper = new ObjectMapper(yaml.newInstance());
+			mapper = new ObjectMapper(yaml.getConstructor().newInstance());
 		} catch (final ClassNotFoundException | IllegalAccessException | InstantiationException e) {
 			LOGGER.debug("YAML support not available, using JSON only", e);
 			mapper = new ObjectMapper();

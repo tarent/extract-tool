@@ -105,7 +105,7 @@ public class HeaderProcessor {
 			}
 			;
 		}
-		return clazz.newInstance();
+		return clazz.getConstructor().newInstance();
 	}
 
 	private Properties mergeProperties(ColumnMapping mapping) {
