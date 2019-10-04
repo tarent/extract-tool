@@ -4,7 +4,7 @@
 	<parent>
 		<groupId>org.evolvis.tartools</groupId>
 		<artifactId>maven-parent</artifactId>
-		<version>1.17-SNAPSHOT</version>
+		<version>1.17</version>
 	</parent>
 	<groupId>org.evolvis.tartools</groupId>
 	<artifactId>extract-tool</artifactId>
@@ -31,7 +31,7 @@
 		<sonar.sources>src/main</sonar.sources>
 		<sonar.tests>src/test</sonar.tests>
 		<archiver.copyright.firstyear>2015</archiver.copyright.firstyear>
-		<archiver.copyright.lastyear>2018</archiver.copyright.lastyear>
+		<archiver.copyright.lastyear>2019</archiver.copyright.lastyear>
 		<doclint.optappend>-Xdoclint:all -Xdoclint:-missing</doclint.optappend>
 		<!-- dependencies -->
 		<spring.version>4.1.4.RELEASE</spring.version>
