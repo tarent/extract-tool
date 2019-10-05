@@ -86,7 +86,7 @@ The dependencies shipped in the -cli (fat executable) JAR are:
 │                                                                          │
 │ ## Licensing                                                             │
 │                                                                          │
-│ Jackson core and extension components may licensed under different       │
+│ Jackson core and extension components may be licensed under different    │
 │ licenses. To find the details that apply to this artifact see the        │
 │ accompanying LICENSE file. For more information, including possible      │
 │ other licensing options, contact FasterXML.com (http://fasterxml.com).   │
