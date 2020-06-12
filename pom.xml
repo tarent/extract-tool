@@ -101,6 +101,20 @@
 				<artifactId>exec-maven-plugin</artifactId>
 				<executions>
 					<execution>
+						<id>build-depsrcs</id>
+						<phase>generate-resources</phase>
+						<goals>
+							<goal>exec</goal>
+						</goals>
+						<configuration>
+							<executable>src/main/ancillary/depsrc.sh</executable>
+							<environmentVariables>
+								<DEPSRC_RUN_FROM_MAVEN>true</DEPSRC_RUN_FROM_MAVEN>
+							</environmentVariables>
+							<useMavenLogger>true</useMavenLogger>
+						</configuration>
+					</execution>
+					<execution>
 						<id>dep-check</id>
 						<phase>install</phase>
 						<goals>
@@ -135,6 +149,19 @@
 						<goals>
 							<goal>single</goal>
 						</goals>
+					</execution>
+					<execution>
+						<id>dist-assembly-depsrc</id>
+						<phase>compile</phase>
+						<goals>
+							<goal>single</goal>
+						</goals>
+						<configuration>
+							<attach>true</attach>
+							<descriptors>
+								<descriptor>src/main/ancillary/depsrc.xml</descriptor>
+							</descriptors>
+						</configuration>
 					</execution>
 				</executions>
 				<configuration>
