@@ -4,7 +4,7 @@
 	<parent>
 		<groupId>org.evolvis.tartools</groupId>
 		<artifactId>maven-parent</artifactId>
-		<version>1.26-SNAPSHOT</version>
+		<version>1.26</version>
 	</parent>
 	<groupId>org.evolvis.tartools</groupId>
 	<artifactId>extract-tool</artifactId>
@@ -34,16 +34,16 @@
 		<archiver.copyright.lastyear>2019</archiver.copyright.lastyear>
 		<doclint.optappend>-Xdoclint:all -Xdoclint:-missing</doclint.optappend>
 		<!-- dependencies -->
-		<spring.version>4.1.4.RELEASE</spring.version>
-		<jackson.version>2.10.0</jackson.version>
-		<log4j.version>2.2</log4j.version>
-		<commons-cli.version>1.2</commons-cli.version>
-		<commons-io.version>2.4</commons-io.version>
-		<commons-csv.version>1.1</commons-csv.version>
-		<background-jobs.version>1.24-SNAPSHOT</background-jobs.version>
+		<spring.version>4.3.27.RELEASE</spring.version>
+		<jackson.version>2.11.0</jackson.version>
+		<log4j.version>2.13.3</log4j.version>
+		<commons-cli.version>1.4</commons-cli.version>
+		<commons-io.version>2.7</commons-io.version>
+		<commons-csv.version>1.8</commons-csv.version>
+		<background-jobs.version>1.24</background-jobs.version>
 		<!-- testing -->
-		<mockito1.version>1.10.8</mockito1.version>
-		<junit.version>4.12</junit.version>
+		<mockito1.version>1.10.19</mockito1.version>
+		<junit.version>4.13</junit.version>
 		<assertj.version>1.7.1</assertj.version>
 	</properties>
 	<scm>
