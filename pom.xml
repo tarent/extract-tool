@@ -43,7 +43,7 @@
 		<log4j.version>2.13.3</log4j.version>
 		<spring.version>4.3.27.RELEASE</spring.version>
 		<!-- testing -->
-		<assertj.version>1.7.1</assertj.version>
+		<assertj.version>3.16.1</assertj.version>
 		<junit.version>4.13</junit.version>
 		<mockito1.version>1.10.19</mockito1.version>
 		<!-- maven plugins -->
