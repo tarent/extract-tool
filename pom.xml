@@ -34,17 +34,18 @@
 		<archiver.copyright.lastyear>2019</archiver.copyright.lastyear>
 		<doclint.optappend>-Xdoclint:all -Xdoclint:-missing</doclint.optappend>
 		<!-- dependencies -->
-		<spring.version>4.3.27.RELEASE</spring.version>
+		<background-jobs.version>1.24</background-jobs.version>
+		<commons-cli.version>1.4</commons-cli.version>
+		<commons-csv.version>1.8</commons-csv.version>
+		<commons-io.version>2.7</commons-io.version>
+		<commons-logging.version>1.2</commons-logging.version>
 		<jackson.version>2.11.0</jackson.version>
 		<log4j.version>2.13.3</log4j.version>
-		<commons-cli.version>1.4</commons-cli.version>
-		<commons-io.version>2.7</commons-io.version>
-		<commons-csv.version>1.8</commons-csv.version>
-		<background-jobs.version>1.24</background-jobs.version>
+		<spring.version>4.3.27.RELEASE</spring.version>
 		<!-- testing -->
-		<mockito1.version>1.10.19</mockito1.version>
-		<junit.version>4.13</junit.version>
 		<assertj.version>1.7.1</assertj.version>
+		<junit.version>4.13</junit.version>
+		<mockito1.version>1.10.19</mockito1.version>
 		<!-- maven plugins -->
 		<maven.owasp.dependency-check.version>5.3.2</maven.owasp.dependency-check.version>
 	</properties>
@@ -229,6 +230,11 @@
 			<groupId>commons-io</groupId>
 			<artifactId>commons-io</artifactId>
 			<version>${commons-io.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>commons-logging</groupId>
+			<artifactId>commons-logging</artifactId>
+			<version>${commons-logging.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>junit</groupId>
