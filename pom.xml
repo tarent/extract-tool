@@ -69,6 +69,34 @@
 		</testResources>
 		<plugins>
 			<plugin>
+				<!-- mvn -Ddependency-check.skip … -->
+				<groupId>org.owasp</groupId>
+				<artifactId>dependency-check-maven</artifactId>
+				<version>${maven.owasp.dependency-check.version}</version>
+				<executions>
+					<execution>
+						<id>owasp-check</id>
+						<phase>install</phase>
+						<goals>
+							<goal>aggregate</goal>
+						</goals>
+						<configuration>
+							<failBuildOnCVSS>8</failBuildOnCVSS>
+							<scanSet>
+								<fileSet>
+									<directory>src</directory>
+								</fileSet>
+							</scanSet>
+							<skipArtifactType>pom</skipArtifactType>
+							<!-- suppressionFiles>
+								<suppressionFile>src/main/ancillary/dependency-check-suppressions.xml</suppressionFile>
+							</suppressionFiles -->
+						</configuration>
+					</execution>
+				</executions>
+				<inherited>false</inherited>
+			</plugin>
+			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>exec-maven-plugin</artifactId>
 				<executions>
@@ -135,34 +163,6 @@
 						</configuration>
 					</execution>
 				</executions>
-			</plugin>
-			<plugin>
-				<!-- mvn -Ddependency-check.skip … -->
-				<groupId>org.owasp</groupId>
-				<artifactId>dependency-check-maven</artifactId>
-				<version>${maven.owasp.dependency-check.version}</version>
-				<executions>
-					<execution>
-						<id>owasp-check</id>
-						<phase>install</phase>
-						<goals>
-							<goal>aggregate</goal>
-						</goals>
-						<configuration>
-							<failBuildOnCVSS>8</failBuildOnCVSS>
-							<scanSet>
-								<fileSet>
-									<directory>src</directory>
-								</fileSet>
-							</scanSet>
-							<skipArtifactType>pom</skipArtifactType>
-							<!-- suppressionFiles>
-								<suppressionFile>src/main/ancillary/dependency-check-suppressions.xml</suppressionFile>
-							</suppressionFiles -->
-						</configuration>
-					</execution>
-				</executions>
-				<inherited>false</inherited>
 			</plugin>
 		</plugins>
 	</build>
