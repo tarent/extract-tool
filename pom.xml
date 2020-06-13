@@ -41,6 +41,8 @@
 		<jackson.version>2.11.0</jackson.version>
 		<log4j.version>2.13.3</log4j.version>
 		<spring.version>4.3.27.RELEASE</spring.version>
+		<!-- see src/dist/example.sh -->
+		<postgresql.version>42.2.14</postgresql.version>
 		<!-- testing -->
 		<assertj.version>3.16.1</assertj.version>
 		<junit.version>4.13</junit.version>
@@ -282,6 +284,13 @@
 					<artifactId>mockito-all</artifactId>
 					<version>${mockito1.version}</version>
 					<scope>test</scope>
+				</dependency>
+				<!-- for src/dist/example.sh -->
+				<dependency>
+					<groupId>org.postgresql</groupId>
+					<artifactId>postgresql</artifactId>
+					<version>${postgresql.version}</version>
+					<scope>provided</scope>
 				</dependency>
 				<dependency>
 					<groupId>org.springframework</groupId>
