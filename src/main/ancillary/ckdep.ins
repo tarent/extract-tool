@@ -1,0 +1,10 @@
+# shaded into Spring core
+#org.springframework:spring-core:4.3.27.RELEASE \
+#	org.objenesis:objenesis:2.6
+# embedded patched version in Spring core
+#!org.springframework:spring-core:4.3.27.RELEASE \
+#	org.ow2.asm:asm:6.0
+# shaded into Spring core; dependencies are optional (ant)
+# or transformed to embedded patched version (asm, see above)
++org.springframework:spring-core:4.3.27.RELEASE \
+	cglib:cglib:3.2.6
