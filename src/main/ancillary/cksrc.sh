@@ -63,6 +63,9 @@ set -A depsrc_grep_exclusions
 set -A depsrc_grep_inclusions
 depsrc_grep_inclusions+=(-e '^# dummy, only needed if this array is empty otherwise$')
 depsrc_grep_exclusions+=(-e '^# dummy$')
-# scope provided, but included in fat JAR
-depsrc_grep_exclusions+=(-e '^org.apache.logging.log4j log4j-core ')
-depsrc_grep_exclusions+=(-e '^org.apache.logging.log4j log4j-jcl ')
+# examples:
+## shipped in axis:axis source JAR
+#depsrc_grep_inclusions+=(-e '^org\.apache\.axis axis-jaxrpc ')
+#depsrc_grep_inclusions+=(-e '^org\.apache\.axis axis-saaj ')
+## not in ckdep.mvn for technical reasons but correct
+#depsrc_grep_exclusions+=(-e '^org\.projectlombok lombok ')
