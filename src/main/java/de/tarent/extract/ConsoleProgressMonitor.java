@@ -74,7 +74,11 @@ public class ConsoleProgressMonitor implements BackgroundJobMonitor {
 
     private void printProgress() {
         // "Progress: [======..............] 204099 of 300000"
-        final double doneRatio = ((double) done) / ((double) total);
+        if (total == 0 && hasEnded) {
+            // avoid drawing it twice
+            return;
+        }
+        final double doneRatio = total > 0 ? ((double) done) / ((double) total) : 1;
         final StringWriter sb = new StringWriter();
         sb.write("Progress: [");
         for (int i = 0; i < barWidth; i++) {
