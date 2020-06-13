@@ -63,7 +63,7 @@ public class ConsoleProgressMonitor implements BackgroundJobMonitor {
     @Override
     public void announceTotal(final int totalItems) {
         total = totalItems;
-        /* printProgress(); */ // strictly speaking, this is needed
+        printProgress();
     }
 
     @Override
