@@ -36,6 +36,7 @@ function errmsg {
 	shift
 	IFS=$'\n'
 	set -- $*
+	IFS=$' \t\n'
 	for x in "$@"; do
 		print -ru9 -- "| $x"
 	done
@@ -254,7 +255,7 @@ function depround {
 		<ckdep.pom.tmp sort -u | doscopes |&
 		while read -pr ga v x; do
 			if [[ $x != @(doc-only|unreleased|"$scope") ]]; then
-				errmsg "unexpected scope $ga $v ${x@Q} for $rest $scope"
+				errmsg "unexpected scope for $ga $v in ${x@Q} for $rest in $scope"
 				(( abend |= 2 ))
 			fi
 			[[ $x = doc-only ]] || print -ru4 -- $ga $v $scope
