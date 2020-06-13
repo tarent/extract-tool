@@ -74,7 +74,7 @@ public class ConsoleProgressMonitor implements BackgroundJobMonitor {
 
     private void printProgress() {
         // "Progress: [======..............] 204099 of 300000"
-        if (total == 0 && hasEnded) {
+        if (total < 2 && hasEnded) {
             // avoid drawing it twice
             return;
         }
