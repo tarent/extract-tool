@@ -27,14 +27,14 @@ package de.tarent.extract;
  * SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 
 public class DateExtractor implements ResultSetValueExtractor {
     @Override
     public Object extractValue(final ResultSet rs, final int col) throws SQLException {
-        final Date date = rs.getDate(col + 1);
+        final Timestamp date = rs.getTimestamp(col + 1);
         return date == null ? null : date.getTime();
     }
 }
