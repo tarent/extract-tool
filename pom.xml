@@ -34,7 +34,7 @@
 		<archiver.copyright.lastyear>2020</archiver.copyright.lastyear>
 		<doclint.optappend>-Xdoclint:all -Xdoclint:-missing</doclint.optappend>
 		<!-- dependencies -->
-		<background-jobs.version>1.24</background-jobs.version>
+		<background-jobs.version>1.25</background-jobs.version>
 		<commons-cli.version>1.4</commons-cli.version>
 		<commons-csv.version>1.8</commons-csv.version>
 		<commons-io.version>2.7</commons-io.version>
