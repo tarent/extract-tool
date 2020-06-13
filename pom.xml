@@ -184,10 +184,12 @@
 					<execution>
 						<id>analyse-dependency-usage</id>
 						<configuration>
-							<failOnWarning>false</failOnWarning>
 							<ignoredUnusedDeclaredDependencies combine.children="append">
+								<!-- must be on the classpath; shaded into fat JAR -->
 								<ignoredUnusedDeclaredDependency>org.apache.logging.log4j:log4j-core</ignoredUnusedDeclaredDependency>
 								<ignoredUnusedDeclaredDependency>org.apache.logging.log4j:log4j-jcl</ignoredUnusedDeclaredDependency>
+								<!-- for src/dist/example.sh -->
+								<ignoredUnusedDeclaredDependency>org.postgresql:postgresql</ignoredUnusedDeclaredDependency>
 							</ignoredUnusedDeclaredDependencies>
 						</configuration>
 					</execution>
