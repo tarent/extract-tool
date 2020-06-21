@@ -6,8 +6,8 @@ parentpompath=../../..	# src/main/ancillary/
 #parentpompath=..	# release/
 
 # Maven profiles to use when ckdep’ing
-mvnprofiles='-Pbuild-mvnparent'
-#mvnprofiles=''
+#mvnprofiles='-Pbuild-mvnparent'
+mvnprofiles=''
 
 # groupId:artifactId vectors to include (from scopes provided, test, etc.)
 # or exclude (from scopes compile/runtime by ckdep, so depsrc has them;
