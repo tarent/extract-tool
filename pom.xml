@@ -37,7 +37,7 @@
 		<background-jobs.version>1.25</background-jobs.version>
 		<commons-cli.version>1.4</commons-cli.version>
 		<commons-io.version>2.7</commons-io.version>
-		<csvfile.version>3.0-SNAPSHOT</csvfile.version>
+		<csvfile.version>3.0</csvfile.version>
 		<jackson.version>2.11.1</jackson.version>
 		<log4j.version>2.13.3</log4j.version>
 		<spring.version>4.3.27.RELEASE</spring.version>
