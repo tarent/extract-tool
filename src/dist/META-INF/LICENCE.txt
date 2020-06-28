@@ -261,8 +261,6 @@ The dependencies shipped in the -cli (fat executable) JAR are:
 │ of said person’s immediate fault when using the work as intended.        │
 └──────────────────────────────────────────────────────────────────────────┘
 
-The full text of the LGPL can be found in COPYING.LIB in this directory.
-
 ┌──┤ Spring Framework (Apache 2; 3-clause BSD) ├───────────────────────────┐
 │                                                                          │
 │ Copyright 2002-2020 the original author or authors.                      │
