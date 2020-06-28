@@ -91,8 +91,8 @@ public class Extractor {
 			final Class<? extends JsonFactory> yaml = Class
 			    .forName("com.fasterxml.jackson.dataformat.yaml.YAMLFactory")
 			    .asSubclass(JsonFactory.class);
-			mapper = new ObjectMapper(yaml.newInstance());
-		} catch (final ClassNotFoundException | IllegalAccessException | InstantiationException e) {
+			mapper = new ObjectMapper(yaml.getDeclaredConstructor().newInstance());
+		} catch (final ClassNotFoundException | IllegalAccessException | InstantiationException | NoSuchMethodException e) {
 			LOGGER.debug("YAML support not available, using JSON only", e);
 			mapper = new ObjectMapper();
 		}
@@ -146,7 +146,7 @@ public class Extractor {
 		try {
 
 			final HeaderProcessor headerProcessor = headerProcessorFactory.create(query.getMappings(),
-					io.getProperties());
+			    io.getProperties());
 			// before fetching the actual rows, fire a query that will produce no results,
 			// but provide us with the column meta data. This allows us to fail early if
 			// our configuration is broken.
