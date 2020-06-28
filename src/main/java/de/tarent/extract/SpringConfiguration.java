@@ -40,7 +40,6 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.datasource.SimpleDriverDataSource;
 
 import javax.sql.DataSource;
-import java.sql.SQLException;
 import java.util.Properties;
 
 @Configuration
@@ -66,13 +65,13 @@ public class SpringConfiguration {
         // with 'jdbc.' and put them into a Properties object that
         // I can pass along as connection properties to the jdbc driver.
         for (final org.springframework.core.env.PropertySource<?> ps : ((AbstractEnvironment) env)
-                .getPropertySources()) {
+          .getPropertySources()) {
             if (ps instanceof MapPropertySource) {
                 for (final String name : ((MapPropertySource) ps).getPropertyNames()) {
                     final String prefix = "jdbc.";
                     if (name.startsWith(prefix)) {
                         properties.setProperty(name.substring(prefix.length()),
-                                env.getProperty(name));
+                          env.getProperty(name));
                     }
                 }
             }
@@ -87,7 +86,7 @@ public class SpringConfiguration {
     }
 
     @Bean
-    public DataSource dataSource() throws SQLException {
+    public DataSource dataSource() {
         final SimpleDriverDataSource ds = new SimpleDriverDataSource();
         ds.setUrl(jdbcUrl);
         ds.setDriverClass(Main.getJdbcDriverClass());

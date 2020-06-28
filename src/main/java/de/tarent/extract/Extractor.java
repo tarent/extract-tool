@@ -83,7 +83,7 @@ public class Extractor {
 			    .forName("com.fasterxml.jackson.dataformat.yaml.YAMLFactory")
 			    .asSubclass(JsonFactory.class);
 			mapper = new ObjectMapper(yaml.getDeclaredConstructor().newInstance());
-		} catch (final ClassNotFoundException | IllegalAccessException | InstantiationException | NoSuchMethodException e) {
+		} catch (final ClassNotFoundException | IllegalAccessException | InstantiationException | InvocationTargetException | NoSuchMethodException e) {
 			LOGGER.debug("YAML support not available, using JSON only", e);
 			mapper = new ObjectMapper();
 		}
@@ -124,12 +124,7 @@ public class Extractor {
 			LOGGER.error("Could not create writer", e);
 			throw new ExtractorException("Could not create writer", e);
 		}
-		final RowPrinter printer = new RowPrinter() {
-			@Override
-			public void printRow(final Iterable<?> values) {
-				csvWriter.writeFields(values);
-			}
-		};
+		final RowPrinter printer = csvWriter::writeFields;
 
 		normalizeQuery(query);
 
@@ -151,7 +146,7 @@ public class Extractor {
 	}
 
 	private void normalizeQuery(final ExtractorQuery query) {
-		final Map<String, ColumnMapping> mappings = new HashMap<String, ColumnMapping>();
+		final Map<String, ColumnMapping> mappings = new HashMap<>();
 		for (final Entry<String, ColumnMapping> entry : query.getMappings().entrySet()) {
 			mappings.put(entry.getKey().toUpperCase(), entry.getValue());
 		}
