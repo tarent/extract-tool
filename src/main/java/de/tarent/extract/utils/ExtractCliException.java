@@ -34,7 +34,7 @@ import java.io.PrintWriter;
 import java.io.StringWriter;
 
 public class ExtractCliException extends Exception {
-    private static final long serialVersionUID = 3654373558875728264L;
+    private static final long serialVersionUID = 4062976072917761848L;
 
     private final String usage;
 

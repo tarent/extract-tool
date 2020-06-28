@@ -28,7 +28,7 @@ package de.tarent.extract.utils;
  */
 
 public class ExtractorException extends RuntimeException {
-    private static final long serialVersionUID = 5873090203439740230L;
+    private static final long serialVersionUID = 1945609536446235566L;
 
     public ExtractorException(final Throwable cause) {
         super(cause);
