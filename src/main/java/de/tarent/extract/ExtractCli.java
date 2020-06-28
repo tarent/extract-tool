@@ -136,11 +136,11 @@ public class ExtractCli implements ExtractIo {
             throw new ExtractCliException(options, "Cannot read properties from " + file);
         }
         try {
-            Properties properties = new Properties();
+            Properties props = new Properties();
             final Reader reader = new InputStreamReader(new FileInputStream(file), StandardCharsets.UTF_8);
-            properties.load(reader);
+            props.load(reader);
             reader.close();
-            return properties;
+            return props;
         } catch (IOException e) {
             // I think all interesting cases are already covered...
             throw new RuntimeException(e);

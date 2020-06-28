@@ -30,7 +30,7 @@ package de.tarent.extract;
 import org.springframework.jdbc.core.JdbcTemplate;
 
 public class DefaultCountStrategy implements CountStrategy {
-    final private JdbcTemplate jdbcTemplate;
+    private final JdbcTemplate jdbcTemplate;
 
     public DefaultCountStrategy(final JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;

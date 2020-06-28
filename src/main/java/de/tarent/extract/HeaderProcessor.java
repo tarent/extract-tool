@@ -59,8 +59,7 @@ public class HeaderProcessor {
     }
 
     @Deprecated
-    public ResultSetValueExtractor[] processHeader(final ResultSet rs, final RowPrinter printer)
-      throws ExtractorException {
+    public ResultSetValueExtractor[] processHeader(final ResultSet rs, final RowPrinter printer) {
         try {
             final ResultSetMetaData md = rs.getMetaData();
             return processHeader(md, printer);
@@ -70,8 +69,7 @@ public class HeaderProcessor {
         }
     }
 
-    public ResultSetValueExtractor[] processHeader(final ResultSetMetaData md, final RowPrinter printer)
-      throws ExtractorException {
+    public ResultSetValueExtractor[] processHeader(final ResultSetMetaData md, final RowPrinter printer) {
         final List<ResultSetValueExtractor> extractors = new ArrayList<>();
         final List<String> headers = new ArrayList<>();
         try {
@@ -93,8 +91,7 @@ public class HeaderProcessor {
     }
 
     private ResultSetValueExtractor createValueExtractor(final ColumnMapping mapping)
-      throws InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException,
-      NoSuchMethodException {
+      throws InstantiationException, IllegalAccessException, InvocationTargetException, NoSuchMethodException {
         final Class<? extends ResultSetValueExtractor> clazz = mapping.getExtractWith();
         final Constructor<?>[] constructors = clazz.getConstructors();
         for (Constructor<?> constructor : constructors) {

@@ -32,7 +32,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.ResultSetExtractor;
 
 public class DefaultRowFetcher implements RowFetcher {
-    final private JdbcTemplate jdbcTemplate;
+    private final JdbcTemplate jdbcTemplate;
 
     public DefaultRowFetcher(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
