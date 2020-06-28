@@ -38,6 +38,7 @@ import de.tarent.extract.utils.ExtractorException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.evolvis.tartools.backgroundjobs.BackgroundJobMonitor;
+import org.evolvis.tartools.csvfile.CSVFile;
 import org.evolvis.tartools.csvfile.CSVFileWriter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -121,6 +122,7 @@ public class Extractor {
         final CSVFileWriter csvWriter;
         try {
             csvWriter = new CSVFileWriter(io.writer());
+            csvWriter.setRowSeparator(CSVFile.CRLF);
         } catch (final IOException e) {
             LOGGER.error("Could not create writer", e);
             throw new ExtractorException("Could not create writer", e);
