@@ -31,7 +31,5 @@ import java.util.Map;
 import java.util.Properties;
 
 public interface HeaderProcessorFactory {
-
-	HeaderProcessor create(Map<String, ColumnMapping> mappings, Properties properties);
-
+    HeaderProcessor create(Map<String, ColumnMapping> mappings, Properties properties);
 }

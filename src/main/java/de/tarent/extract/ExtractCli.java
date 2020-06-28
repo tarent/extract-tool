@@ -28,10 +28,23 @@ package de.tarent.extract;
  */
 
 import de.tarent.extract.utils.ExtractCliException;
-import org.apache.commons.cli.*;
+import org.apache.commons.cli.BasicParser;
+import org.apache.commons.cli.CommandLine;
+import org.apache.commons.cli.CommandLineParser;
+import org.apache.commons.cli.Options;
+import org.apache.commons.cli.ParseException;
 import org.evolvis.tartools.backgroundjobs.BackgroundJobMonitor;
 
-import java.io.*;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.io.PrintStream;
+import java.io.PrintWriter;
+import java.io.Reader;
+import java.io.Writer;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
@@ -83,12 +96,13 @@ public class ExtractCli implements ExtractIo {
         if (cmd.hasOption('J')) {
             final String[] jarNames = cmd.getOptionValue('J').split(":");
             URL[] jarPaths = new URL[jarNames.length];
-            for (int i = 0; i < jarNames.length; ++i)
+            for (int i = 0; i < jarNames.length; ++i) {
                 try {
                     jarPaths[i] = new File(jarNames[i]).toURI().toURL();
                 } catch (MalformedURLException e) {
                     throw new ExtractCliException(options, e);
                 }
+            }
             jdbcLoader = new URLClassLoader(jarPaths, this.getClass().getClassLoader());
         }
         if (cmd.hasOption('c')) {
@@ -210,10 +224,12 @@ public class ExtractCli implements ExtractIo {
         final Class<? extends Driver> clazz = Class
           .forName(driverClassName, true, jdbcLoader)
           .asSubclass(Driver.class);
-        if (clazz == null)
+        if (clazz == null) {
             throw new ClassNotFoundException("class " + driverClassName + " not found");
-        if (!(Driver.class.isAssignableFrom(clazz)))
+        }
+        if (!(Driver.class.isAssignableFrom(clazz))) {
             throw new ClassNotFoundException("class " + driverClassName + " not a JDBC Driver");
+        }
         return clazz;
     }
 }

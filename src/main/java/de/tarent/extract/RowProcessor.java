@@ -27,13 +27,12 @@ package de.tarent.extract;
  * SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
+import de.tarent.extract.utils.ExtractorException;
+
 import java.sql.ResultSet;
 import java.util.Arrays;
 
-import de.tarent.extract.utils.ExtractorException;
-
 public class RowProcessor {
-
     private final ResultSetValueExtractor[] extractors;
     private final Object[] buffer;
     private final int[] columns;
@@ -65,5 +64,4 @@ public class RowProcessor {
             throw new ExtractorException(e);
         }
     }
-
 }

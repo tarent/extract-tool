@@ -27,13 +27,13 @@ package de.tarent.extract;
  * SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
+import org.evolvis.tartools.backgroundjobs.BackgroundJobMonitor;
+
 import java.io.File;
 import java.io.IOException;
 import java.io.Reader;
 import java.io.Writer;
 import java.util.Properties;
-
-import org.evolvis.tartools.backgroundjobs.BackgroundJobMonitor;
 
 public interface ExtractIo {
     /**
@@ -53,7 +53,6 @@ public interface ExtractIo {
     public BackgroundJobMonitor getMonitor();
 
     /**
-     *
      * @return maybe null
      */
     public Properties getProperties();

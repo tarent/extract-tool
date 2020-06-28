@@ -27,15 +27,11 @@ package de.tarent.extract;
  * SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-import static org.junit.Assert.*;
-
 import org.junit.Test;
 
 public class ConsoleProgressMonitorTest {
-
-	@Test
-	public void test() {
-		//fail("Not yet implemented");
-	}
-
+    @Test
+    public void test() {
+        //fail("Not yet implemented");
+    }
 }
