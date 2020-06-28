@@ -27,13 +27,8 @@ package de.tarent.extract;
  * SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.PreparedStatementCallback;
-
-import java.sql.PreparedStatement;
-import java.sql.ResultSetMetaData;
-import java.sql.SQLException;
 
 public class DefaultRowProcessorFactory implements RowProcessorFactory {
     private final JdbcTemplate jdbcTemplate;
@@ -44,14 +39,7 @@ public class DefaultRowProcessorFactory implements RowProcessorFactory {
 
     @Override
     public RowProcessor create(final String sql, final RowPrinter printer, final HeaderProcessor headerProcessor) {
-        return jdbcTemplate.execute(sql, new PreparedStatementCallback<RowProcessor>() {
-
-            @Override
-            public RowProcessor doInPreparedStatement(PreparedStatement ps) throws SQLException, DataAccessException {
-                final ResultSetMetaData metaData = ps.getMetaData();
-                ResultSetValueExtractor[] extractors = headerProcessor.processHeader(metaData, printer);
-                return new RowProcessor(extractors);
-            }
-        });
+        return jdbcTemplate.execute(sql, (PreparedStatementCallback<RowProcessor>) ps -> new RowProcessor(
+          headerProcessor.processHeader(ps.getMetaData(), printer)));
     }
 }

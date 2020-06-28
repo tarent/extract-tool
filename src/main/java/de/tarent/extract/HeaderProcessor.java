@@ -72,8 +72,8 @@ public class HeaderProcessor {
 
     public ResultSetValueExtractor[] processHeader(final ResultSetMetaData md, final RowPrinter printer)
       throws ExtractorException {
-        final List<ResultSetValueExtractor> extractors = new ArrayList<ResultSetValueExtractor>();
-        final List<String> headers = new ArrayList<String>();
+        final List<ResultSetValueExtractor> extractors = new ArrayList<>();
+        final List<String> headers = new ArrayList<>();
         try {
             final int n = md.getColumnCount();
             for (int col = 0; col < n; col++) {
@@ -86,24 +86,24 @@ public class HeaderProcessor {
                 }
             }
             printer.printRow(headers);
-            return extractors.toArray(new ResultSetValueExtractor[extractors.size()]);
-        } catch (SQLException | InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException | IOException e) {
+            return extractors.toArray(new ResultSetValueExtractor[0]);
+        } catch (IOException | IllegalAccessException | IllegalArgumentException | InstantiationException | InvocationTargetException | NoSuchMethodException | SQLException e) {
             throw new ExtractorException(e);
         }
     }
 
     private ResultSetValueExtractor createValueExtractor(final ColumnMapping mapping)
-      throws InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
+      throws InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException,
+      NoSuchMethodException {
         final Class<? extends ResultSetValueExtractor> clazz = mapping.getExtractWith();
         final Constructor<?>[] constructors = clazz.getConstructors();
         for (Constructor<?> constructor : constructors) {
-            if (constructor.getParameterTypes().length == 1
-              && constructor.getParameterTypes()[0].isAssignableFrom(Properties.class)) {
+            if (constructor.getParameterTypes().length == 1 &&
+              constructor.getParameterTypes()[0].isAssignableFrom(Properties.class)) {
                 return (ResultSetValueExtractor) constructor.newInstance(mergeProperties(mapping));
             }
-            ;
         }
-        return clazz.newInstance();
+        return clazz.getDeclaredConstructor().newInstance();
     }
 
     private Properties mergeProperties(ColumnMapping mapping) {

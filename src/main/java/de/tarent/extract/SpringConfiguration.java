@@ -42,6 +42,7 @@ import org.springframework.jdbc.datasource.SimpleDriverDataSource;
 import javax.sql.DataSource;
 import java.util.Properties;
 
+@SuppressWarnings({ "SpringJavaAutowiredFieldsWarningInspection", "unused" })
 @Configuration
 @ComponentScan("de.tarent.extract")
 public class SpringConfiguration {

@@ -28,9 +28,9 @@ package de.tarent.extract;
  */
 
 import de.tarent.extract.utils.ExtractCliException;
-import org.apache.commons.cli.BasicParser;
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.CommandLineParser;
+import org.apache.commons.cli.DefaultParser;
 import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
 import org.evolvis.tartools.backgroundjobs.BackgroundJobMonitor;
@@ -48,6 +48,7 @@ import java.io.Writer;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
+import java.nio.charset.StandardCharsets;
 import java.sql.Driver;
 import java.util.Map;
 import java.util.Properties;
@@ -67,7 +68,7 @@ public class ExtractCli implements ExtractIo {
     }
 
     public ExtractCli(Properties sysProps, Map<String, String> env, final String... args) throws ExtractCliException {
-        final CommandLineParser parser = new BasicParser();
+        final CommandLineParser parser = new DefaultParser();
         final Options options = getOptions();
         File home = home(sysProps, env);
         try {
@@ -136,7 +137,7 @@ public class ExtractCli implements ExtractIo {
         }
         try {
             Properties properties = new Properties();
-            final Reader reader = new InputStreamReader(new FileInputStream(file), "utf-8");
+            final Reader reader = new InputStreamReader(new FileInputStream(file), StandardCharsets.UTF_8);
             properties.load(reader);
             reader.close();
             return properties;
@@ -224,9 +225,6 @@ public class ExtractCli implements ExtractIo {
         final Class<? extends Driver> clazz = Class
           .forName(driverClassName, true, jdbcLoader)
           .asSubclass(Driver.class);
-        if (clazz == null) {
-            throw new ClassNotFoundException("class " + driverClassName + " not found");
-        }
         if (!(Driver.class.isAssignableFrom(clazz))) {
             throw new ClassNotFoundException("class " + driverClassName + " not a JDBC Driver");
         }

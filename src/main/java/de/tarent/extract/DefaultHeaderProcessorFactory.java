@@ -32,7 +32,8 @@ import java.util.Properties;
 
 public class DefaultHeaderProcessorFactory implements HeaderProcessorFactory {
     @Override
-    public HeaderProcessor create(Map<String, ColumnMapping> mappings, Properties properties) {
+    public HeaderProcessor create(final Map<String, ColumnMapping> mappings,
+      final Properties properties) {
         return new HeaderProcessor(mappings, properties);
     }
 }

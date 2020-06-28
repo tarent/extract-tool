@@ -33,9 +33,7 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
-import java.io.IOException;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.verifyZeroInteractions;
@@ -52,14 +50,14 @@ public class RowProcessorTest {
     }
 
     @Test
-    public void itPrintsEmptyRowsIfNoValueExtractorsAreGiven() throws SQLException, IOException {
+    public void itPrintsEmptyRowsIfNoValueExtractorsAreGiven() {
         new RowProcessor().processRow(rs, printer);
         verifyZeroInteractions(rs);
         assertThat(printer.toString()).isEqualTo("\n");
     }
 
     @Test
-    public void itUsesTheValueExtractorsGivenAtConstructionTime() throws SQLException, IOException {
+    public void itUsesTheValueExtractorsGivenAtConstructionTime() {
         final ResultSetValueExtractor a = extractor("a");
         final ResultSetValueExtractor b = extractor("b");
         new RowProcessor(a, b).processRow(rs, printer);
@@ -68,7 +66,7 @@ public class RowProcessorTest {
     }
 
     @Test
-    public void itSkipsColumnsForWhichANullExtractorWasGiven() throws SQLException, IOException {
+    public void itSkipsColumnsForWhichANullExtractorWasGiven() {
         final ResultSetValueExtractor a = extractor("a");
         final ResultSetValueExtractor b = extractor("b");
         new RowProcessor(a, null, null, b).processRow(rs, printer);
@@ -76,14 +74,7 @@ public class RowProcessorTest {
         assertThat(printer.toString()).isEqualTo("0:a,3:b\n");
     }
 
-    private ResultSetValueExtractor extractor(final String name) throws SQLException {
-        final ResultSetValueExtractor mock = new ResultSetValueExtractor() {
-
-            @Override
-            public Object extractValue(final ResultSet rs, final int col) throws SQLException {
-                return col + ":" + name;
-            }
-        };
-        return mock;
+    private ResultSetValueExtractor extractor(final String name) {
+        return (rs1, col) -> col + ":" + name;
     }
 }

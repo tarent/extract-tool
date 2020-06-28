@@ -32,7 +32,6 @@ import org.springframework.context.annotation.AnnotationConfigApplicationContext
 import org.springframework.core.env.PropertiesPropertySource;
 import org.springframework.core.env.PropertySource;
 
-import java.io.IOException;
 import java.sql.Driver;
 import java.util.Properties;
 
@@ -42,9 +41,8 @@ public class Main {
     private Main() {
     }
 
-    public static void main(final String[] args) throws IOException, ClassNotFoundException {
-        final AnnotationConfigApplicationContext cx = new AnnotationConfigApplicationContext();
-        try {
+    public static void main(final String[] args) throws ClassNotFoundException {
+        try (AnnotationConfigApplicationContext cx = new AnnotationConfigApplicationContext()) {
             final ExtractCli cli = new ExtractCli(args);
 
             addPropertySource(cx, cli.getProperties());
@@ -56,8 +54,6 @@ public class Main {
         } catch (final ExtractCliException e) {
             System.err.println(e.getMessage());
             System.err.println(e.getUsage());
-        } finally {
-            cx.close();
         }
     }
 

@@ -27,14 +27,13 @@ package de.tarent.extract;
  * SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-import java.io.IOException;
 import java.io.StringWriter;
 
 public class TestRowPrinter implements RowPrinter {
     private final StringWriter sw = new StringWriter();
 
     @Override
-    public void printRow(final Iterable<?> values) throws IOException {
+    public void printRow(final Iterable<?> values) {
         boolean comma = false;
         for (final Object o : values) {
             if (comma) {

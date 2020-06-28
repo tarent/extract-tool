@@ -53,6 +53,7 @@ import java.util.Map.Entry;
 public class Extractor {
     private static final Logger LOGGER = LogManager.getLogger(Extractor.class);
 
+    @SuppressWarnings("SpringJavaAutowiredFieldsWarningInspection")
     @Autowired
     JdbcTemplate jdbcTemplate;
 

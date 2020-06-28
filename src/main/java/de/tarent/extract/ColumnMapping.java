@@ -34,6 +34,7 @@ public class ColumnMapping {
     private final String mapTo;
     private final Map<String, ?> properties;
 
+    @SuppressWarnings("unused")
     public ColumnMapping() {
         this(null, null);
     }

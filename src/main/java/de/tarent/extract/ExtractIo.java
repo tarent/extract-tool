@@ -39,21 +39,22 @@ public interface ExtractIo {
     /**
      * @return maybe null
      */
-    public File getOutputFile();
+    File getOutputFile();
 
     /**
      * @return maybe null
      */
-    public File getInputFile();
+    @SuppressWarnings("unused")
+    File getInputFile();
 
-    public Reader reader() throws IOException;
+    Reader reader() throws IOException;
 
-    public Writer writer() throws IOException;
+    Writer writer() throws IOException;
 
-    public BackgroundJobMonitor getMonitor();
+    BackgroundJobMonitor getMonitor();
 
     /**
      * @return maybe null
      */
-    public Properties getProperties();
+    Properties getProperties();
 }

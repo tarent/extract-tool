@@ -31,11 +31,9 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
-import org.mockito.invocation.InvocationOnMock;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.mockito.stubbing.Answer;
 
-import java.io.IOException;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
@@ -53,7 +51,7 @@ public class HeaderProcessorTest {
     private ResultSet rs;
 
     private RowPrinter printer;
-    private final Map<String, ColumnMapping> mappings = new HashMap<String, ColumnMapping>();
+    private final Map<String, ColumnMapping> mappings = new HashMap<>();
 
     @Mock
     private ResultSetMetaData metadata;
@@ -61,13 +59,9 @@ public class HeaderProcessorTest {
     public void columnLabels(final String... labels) throws SQLException {
 
         when(metadata.getColumnCount()).thenReturn(labels.length);
-        when(metadata.getColumnLabel(anyInt())).thenAnswer(new Answer<String>() {
-
-            @Override
-            public String answer(final InvocationOnMock invocation) throws Throwable {
-                final Integer col = invocation.getArgumentAt(0, Integer.class) - 1;
-                return labels[col];
-            }
+        when(metadata.getColumnLabel(anyInt())).thenAnswer((Answer<String>) invocation -> {
+            final int col = invocation.getArgumentAt(0, Integer.class) - 1;
+            return labels[col];
         });
     }
 
@@ -79,7 +73,7 @@ public class HeaderProcessorTest {
     }
 
     @Test
-    public void itPrintsEmptyRowsIfNoMappingsAreGiven() throws SQLException, IOException {
+    public void itPrintsEmptyRowsIfNoMappingsAreGiven() {
 
         final ResultSetValueExtractor[] extractors = new HeaderProcessor(mappings).processHeader(metadata, printer);
 
@@ -91,13 +85,12 @@ public class HeaderProcessorTest {
     public static class FooExtractor implements ResultSetValueExtractor {
 
         @Override
-        public Object extractValue(final ResultSet rs, final int col) throws SQLException {
+        public Object extractValue(final ResultSet rs, final int col) {
             return null;
         }
-
     }
 
-    public static class ConfigurableExtractor implements ResultSetValueExtractor{
+    public static class ConfigurableExtractor implements ResultSetValueExtractor {
 
         private final Properties properties;
 
@@ -106,29 +99,27 @@ public class HeaderProcessorTest {
         }
 
         @Override
-        public Object extractValue(ResultSet rs, int col) throws SQLException {
+        public Object extractValue(ResultSet rs, int col) {
             return properties;
         }
-
     }
 
-    public static class NestedConfigurableExtractor implements ResultSetValueExtractor{
+    public static class NestedConfigurableExtractor implements ResultSetValueExtractor {
 
-        private final Map<String,?> properties;
+        private final Map<String, ?> properties;
 
         public NestedConfigurableExtractor(Map<String, ?> properties) {
             this.properties = properties;
         }
 
         @Override
-        public Object extractValue(ResultSet rs, int col) throws SQLException {
+        public Object extractValue(ResultSet rs, int col) {
             return properties;
         }
-
     }
 
     @Test
-    public void itUsesMappingsGivenAtConstructionTime() throws SQLException, IOException {
+    public void itUsesMappingsGivenAtConstructionTime() throws SQLException {
         columnLabels("bar", "foo");
         mappings.put("FOO", new ColumnMapping("the.foo", FooExtractor.class));
         mappings.put("BAR", new ColumnMapping("the.bar"));
@@ -141,7 +132,7 @@ public class HeaderProcessorTest {
     }
 
     @Test
-    public void itCanPassCustomPropertiesToTheResultSetValueExtractors() throws SQLException{
+    public void itCanPassCustomPropertiesToTheResultSetValueExtractors() throws SQLException {
         Properties props = new Properties();
         props.put("arg.a", "a");
         props.put("arg.b", "b");
@@ -154,19 +145,19 @@ public class HeaderProcessorTest {
         assertThat(extractors).doesNotContainNull();
         assertThat(extractors[0]).isInstanceOf(ConfigurableExtractor.class);
         assertThat(extractors[1]).isInstanceOf(FooExtractor.class);
-        Properties effectiveProperties =(Properties) extractors[0].extractValue(rs, 42);
+        Properties effectiveProperties = (Properties) extractors[0].extractValue(rs, 42);
         assertThat(effectiveProperties.getProperty("arg.a")).isEqualTo("a");
         assertThat(effectiveProperties.getProperty("arg.b")).isEqualTo("b");
     }
 
     @Test
-    public void itWillMergePropertiesGivenInTheColumnMapping() throws SQLException{
+    public void itWillMergePropertiesGivenInTheColumnMapping() throws SQLException {
         Properties props = new Properties();
         props.put("arg.a", "a");
         props.put("arg.b", "b");
-        Map<String,String> colProps = new HashMap<String,String>();
-        colProps .put("arg.b", "b'");
-        colProps .put("arg.c", "c'");
+        Map<String, String> colProps = new HashMap<>();
+        colProps.put("arg.b", "b'");
+        colProps.put("arg.c", "c'");
         columnLabels("bar", "foo");
         mappings.put("FOO", new ColumnMapping("the.foo", FooExtractor.class));
         mappings.put("BAR", new ColumnMapping("the.bar", ConfigurableExtractor.class, colProps));
@@ -176,22 +167,23 @@ public class HeaderProcessorTest {
         assertThat(extractors).doesNotContainNull();
         assertThat(extractors[0]).isInstanceOf(ConfigurableExtractor.class);
         assertThat(extractors[1]).isInstanceOf(FooExtractor.class);
-        Properties effectiveProperties =(Properties) extractors[0].extractValue(rs, 42);
+        Properties effectiveProperties = (Properties) extractors[0].extractValue(rs, 42);
         assertThat(effectiveProperties.getProperty("arg.a")).isEqualTo("a");
         assertThat(effectiveProperties.getProperty("arg.b")).isEqualTo("b'");
         assertThat(effectiveProperties.getProperty("arg.c")).isEqualTo("c'");
     }
 
+    @SuppressWarnings("unchecked")
     @Test
-    public void itSupportsArbitraryNestedMapsAsProperties() throws SQLException{
+    public void itSupportsArbitraryNestedMapsAsProperties() throws SQLException {
         Properties props = new Properties();
         props.put("arg.a", "a");
         props.put("arg.b", "b");
-        Map<String,Object> colProps = new HashMap<String,Object>();
-        colProps .put("arg.b", "b'");
-        Map<String,String> nestedMap = new HashMap<String,String>();
+        Map<String, Object> colProps = new HashMap<>();
+        colProps.put("arg.b", "b'");
+        Map<String, String> nestedMap = new HashMap<>();
         nestedMap.put("arg.d", "d");
-        colProps .put("arg.c", nestedMap);
+        colProps.put("arg.c", nestedMap);
         columnLabels("bar", "foo");
         mappings.put("FOO", new ColumnMapping("the.foo", FooExtractor.class));
         mappings.put("BAR", new ColumnMapping("the.bar", NestedConfigurableExtractor.class, colProps));
@@ -201,10 +193,10 @@ public class HeaderProcessorTest {
         assertThat(extractors).doesNotContainNull();
         assertThat(extractors[0]).isInstanceOf(NestedConfigurableExtractor.class);
         assertThat(extractors[1]).isInstanceOf(FooExtractor.class);
-        Map<String,?> effectiveProperties =(Map<String,?>) extractors[0].extractValue(rs, 42);
+        Map<String, ?> effectiveProperties = (Map<String, ?>) extractors[0].extractValue(rs, 42);
         assertThat(effectiveProperties.get("arg.a")).isEqualTo("a");
         assertThat(effectiveProperties.get("arg.b")).isEqualTo("b'");
-        Map<String,?> effectiveNestedMap = (Map<String, ?>) effectiveProperties.get("arg.c");
+        Map<String, ?> effectiveNestedMap = (Map<String, ?>) effectiveProperties.get("arg.c");
         assertThat(effectiveNestedMap.get("arg.d")).isEqualTo("d");
     }
 }

@@ -36,10 +36,10 @@ public class DefaultCountStrategy implements CountStrategy {
         this.jdbcTemplate = jdbcTemplate;
     }
 
+    @SuppressWarnings("SqlNoDataSourceInspection")
     @Override
     public Integer count(ExtractorQuery query) {
         final String countSql = "SELECT COUNT(*) FROM (" + query.getSql() + ") alias42__";
-        final Integer total = jdbcTemplate.queryForObject(countSql, Integer.class);
-        return total;
+        return jdbcTemplate.queryForObject(countSql, Integer.class);
     }
 }
