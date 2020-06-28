@@ -38,7 +38,7 @@
 		<commons-cli.version>1.4</commons-cli.version>
 		<commons-csv.version>1.8</commons-csv.version>
 		<commons-io.version>2.7</commons-io.version>
-		<jackson.version>2.11.0</jackson.version>
+		<jackson.version>2.11.1</jackson.version>
 		<log4j.version>2.13.3</log4j.version>
 		<spring.version>4.3.27.RELEASE</spring.version>
 		<!-- see src/dist/example.sh -->

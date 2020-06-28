@@ -1,8 +1,8 @@
 cglib cglib 3.2.6
-com.fasterxml.jackson.core jackson-annotations 2.11.0
-com.fasterxml.jackson.core jackson-core 2.11.0
-com.fasterxml.jackson.core jackson-databind 2.11.0
-com.fasterxml.jackson.dataformat jackson-dataformat-yaml 2.11.0
+com.fasterxml.jackson.core jackson-annotations 2.11.1
+com.fasterxml.jackson.core jackson-core 2.11.1
+com.fasterxml.jackson.core jackson-databind 2.11.1
+com.fasterxml.jackson.dataformat jackson-dataformat-yaml 2.11.1
 commons-cli commons-cli 1.4
 commons-io commons-io 2.7
 commons-logging commons-logging 1.2
