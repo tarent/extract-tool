@@ -5,7 +5,7 @@ dependencies, as shipped, are reproduced below.
 │                                                                          │
 │ Extract-Tool is Copyright                                                │
 │  © 2015, 2016, 2018 Lukas Degener <l.degener@tarent.de>                  │
-│  © 2018, 2019 mirabilos <t.glaser@tarent.de>                             │
+│  © 2018, 2019, 2020 mirabilos <t.glaser@tarent.de>                       │
 │  © 2015 Jens Oberender <j.oberender@tarent.de>                           │
 │ Licensor is tarent solutions GmbH, http://www.tarent.de/                 │
 │                                                                          │
@@ -31,6 +31,7 @@ dependencies, as shipped, are reproduced below.
 
 Summary of individual licences used, including all dependencies:
 • Apache 2
+• BSD (two-clause)
 • BSD (three-clause)
 • MIT
 • MirOS
@@ -93,7 +94,7 @@ The dependencies shipped in the -cli (fat executable) JAR are:
 │ available from the source code management (SCM) system project uses.     │
 └──────────────────────────────────────────────────────────────────────────┘
 
-┌──┤ commons-{cli,io,logging,csv}, log4j (Apache 2) ├──────────────────────┐
+┌──┤ commons-{cli,io,logging}, log4j (Apache 2) ├──────────────────────────┐
 │                                                                          │
 │ Licensed to the Apache Software Foundation (ASF) under one or more       │
 │ contributor license agreements.  See the NOTICE file distributed with    │
@@ -119,32 +120,8 @@ The dependencies shipped in the -cli (fat executable) JAR are:
 │ Apache Commons Logging                                                   │
 │ Copyright 2003-2014 The Apache Software Foundation                       │
 │                                                                          │
-│ Apache Commons CSV                                                       │
-│ Copyright 2005-2020 The Apache Software Foundation                       │
-│                                                                          │
 │ This product includes software developed at                              │
 │ The Apache Software Foundation (http://www.apache.org/).                 │
-│                                                                          │
-│ src/main/resources/contract.txt                                          │
-│ This file was downloaded from                                            │
-│ http://www.ferc.gov/docs-filing/eqr/soft-tools/sample-csv/contract.txt   │
-│ and contains neither copyright notice nor license.                       │
-│                                                                          │
-│ src/main/resources/transaction.txt                                       │
-│ This file was downloaded from                                            │
-│ http://www.ferc.gov/docs-filing/eqr/soft-tools/sample-csv/transaction.txt│
-│ and contains neither copyright notice nor license.                       │
-│                                                                          │
-│ src/test/resources/CSVFileParser/bom.csv                                 │
-│ src/test/resources/CSVFileParser/test.csv                                │
-│ src/test/resources/CSVFileParser/test_default.txt                        │
-│ src/test/resources/CSVFileParser/test_default_comment.txt                │
-│ src/test/resources/CSVFileParser/test_rfc4180.txt                        │
-│ src/test/resources/CSVFileParser/test_rfc4180_trim.txt                   │
-│ src/test/resources/CSVFileParser/testCSV85.csv                           │
-│ src/test/resources/CSVFileParser/testCSV85_default.txt                   │
-│ src/test/resources/CSVFileParser/testCSV85_ignoreEmpty.txt               │
-│ These files are used as test data and test result specifications.        │
 │                                                                          │
 │ Apache Log4j API                                                         │
 │ Copyright 1999-2020 Apache Software Foundation                           │
@@ -186,6 +163,105 @@ The dependencies shipped in the -cli (fat executable) JAR are:
 │ TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE        │
 │ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.                   │
 └──────────────────────────────────────────────────────────────────────────┘
+
+┌──┤ CSVFile (LGPLv2+; 2-clause BSD; TPOP; MirBSD) ├───────────────────────┐
+│                                                                          │
+│ The CSVFile tools are a collection of classes to deal with CSV files     │
+│ (comma-separated values). They have quite a history. This edition is     │
+│ developed by ⮡ tarent and published under the terms and conditions of    │
+│ the GNU LGPL (Lesser or Library General Public License), any version,    │
+│ as published by the Free Software Foundation. Some individual files      │
+│ are available as well under more liberal terms as documented below.      │
+│                                                                          │
+│ COPYING in this directory has the full LGPL licence terms and text.      │
+│                                                                          │
+│ Licensor is tarent solutions GmbH, http://www.tarent.de/                 │
+│                                                                          │
+│ Copyright holders and contributors:                                      │
+│                                                                          │
+│ *** CSVFile, CSVFileReader, CSVFileWriter, CSVFile10Writer ***           │
+│                                                                          │
+│ Copyright © 2018, 2019 mirabilos <t.glaser@tarent.de>                    │
+│                                                                          │
+│ Formerly developed as part of VerA.web:                                  │
+│ Copyright © 2016 Атанас Александров <a.alexandrov@tarent.de>             │
+│ Copyright © 2006 Christoph Jerolimov <jerolimov@gmx.de>                  │
+│ Copyright © 2008 Carsten Klein <c.klein@tarent.de>                       │
+│ Copyright © 2005 Michael Klink <m.klink@tarent.de>                       │
+│ Copyright © 2013, 2015, 2018 mirabilos <t.glaser@tarent.de>              │
+│ and older code, Copyright © 2004–2008 ⮡ tarent GmbH and contributors.    │
+│                                                                          │
+│ Copyright © 2005 Fabrizio Fazzino (under GNU LGPL) — also on             │
+│ http://sourceforge.net/projects/csvfile                                  │
+│                                                                          │
+│ Published as part of Ian’s Java CookBook, 2002 (under 2-clause BSD):     │
+│                                                                          │
+│ Copyright (c) Ian F. Darwin, http://www.darwinsys.com/, 1996–2001        │
+│ Copyright (c) Ben Ballard, ca. 2001                                      │
+│ All rights reserved. Software written by Ian F. Darwin and others.       │
+│                                                                          │
+│ Redistribution and use in source and binary forms, with or without       │
+│ modification, are permitted provided that the following conditions       │
+│ are met:                                                                 │
+│ 1. Redistributions of source code must retain the above copyright        │
+│    notice, this list of conditions and the following disclaimer.         │
+│ 2. Redistributions in binary form must reproduce the above copyright     │
+│    notice, this list of conditions and the following disclaimer in the   │
+│    documentation and/or other materials provided with the distribution.  │
+│                                                                          │
+│ THIS SOFTWARE IS PROVIDED BY THE AUTHOR AND CONTRIBUTORS “AS IS” AND     │
+│ ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE    │
+│ IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR       │
+│ PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE AUTHOR OR CONTRIBUTORS     │
+│ BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR   │
+│ CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF     │
+│ SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS │
+│ INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN  │
+│ CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)  │
+│ ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF   │
+│ THE POSSIBILITY OF SUCH DAMAGE.                                          │
+│                                                                          │
+│ Java, the Duke mascot, and all variants of Sun’s Java “steaming coffee   │
+│ cup” logo are trademarks of Sun Microsystems. Sun’s and James Gosling’s  │
+│ pioneering role in inventing and promulgating (and standardising) the    │
+│ Java language and environment is gratefully acknowledged.                │
+│                                                                          │
+│ The pioneering role of Dennis Ritchie and Bjarne Stroustrup, of AT&T,    │
+│ for inventing predecessor languages C and C++ is also gratefully         │
+│ acknowledged.                                                            │
+│                                                                          │
+│ Copyright (C) 1999 Lucent Technologies                                   │
+│ Adapted from a C++ original excerpted from “The Practice of Programming” │
+│ by Brian Kernighan and Rob Pike. Included by permission of the TPOP      │
+│ http://www.informit.com/store/practice-of-programming-9780201615869      │
+│ (at http://tpop.awl.com/ formerly) Addison-Wesley web site, which says:  │
+│ <cite>“You may use this code for any purpose, as long as you leave the   │
+│ copyright notice and book citation attached.”</cite> I have done so.     │
+│                                                                          │
+│ *** SSVFileReader, SSVFileWriter, the build scripts and test cases ***   │
+│                                                                          │
+│ Copyright © 2016, 2017, 2018, 2019                                       │
+│ 	mirabilos <t.glaser@tarent.de>                                     │
+│ Copyright © 2015, 2017, 2019, 2020                                       │
+│ 	mirabilos <mirabilos@evolvis.org>                                  │
+│                                                                          │
+│ Provided that these terms and disclaimer and all copyright notices       │
+│ are retained or reproduced in an accompanying document, permission       │
+│ is granted to deal in this work without restriction, including un‐       │
+│ limited rights to use, publicly perform, distribute, sell, modify,       │
+│ merge, give away, or sublicence.                                         │
+│                                                                          │
+│ This work is provided “AS IS” and WITHOUT WARRANTY of any kind, to       │
+│ the utmost extent permitted by applicable law, neither express nor       │
+│ implied; without malicious intent or gross negligence. In no event       │
+│ may a licensor, author or contributor be held liable for indirect,       │
+│ direct, other damage, loss, or other issues arising in any way out       │
+│ of dealing in the work, even if advised of the possibility of such       │
+│ damage or existence of a defect, except proven that it results out       │
+│ of said person’s immediate fault when using the work as intended.        │
+└──────────────────────────────────────────────────────────────────────────┘
+
+The full text of the LGPL can be found in COPYING.LIB in this directory.
 
 ┌──┤ Spring Framework (Apache 2; 3-clause BSD) ├───────────────────────────┐
 │                                                                          │

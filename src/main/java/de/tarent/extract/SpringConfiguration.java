@@ -27,7 +27,6 @@ package de.tarent.extract;
  * SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-import org.apache.commons.csv.CSVFormat;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -102,10 +101,5 @@ public class SpringConfiguration {
     @Bean
     JdbcTemplate jdbcTemplate(final DataSource ds) {
         return new JdbcTemplate(ds);
-    }
-
-    @Bean
-    CSVFormat csvFormat() {
-        return CSVFormat.DEFAULT;
     }
 }

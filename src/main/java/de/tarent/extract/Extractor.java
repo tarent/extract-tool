@@ -27,23 +27,6 @@ package de.tarent.extract;
  * SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-import java.io.IOException;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Map.Entry;
-
-import org.apache.commons.csv.CSVFormat;
-import org.apache.commons.csv.CSVPrinter;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataAccessException;
-import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.ResultSetExtractor;
-import org.springframework.stereotype.Component;
-
 import com.fasterxml.jackson.core.JsonFactory;
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.DeserializationFeature;
@@ -51,9 +34,20 @@ import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.MapperFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
-
-import org.evolvis.tartools.backgroundjobs.BackgroundJobMonitor;
 import de.tarent.extract.utils.ExtractorException;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.evolvis.tartools.backgroundjobs.BackgroundJobMonitor;
+import org.evolvis.tartools.csvfile.CSVFileWriter;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.stereotype.Component;
+
+import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Map.Entry;
 
 @Component
 public class Extractor {
@@ -61,9 +55,6 @@ public class Extractor {
 
 	@Autowired
 	JdbcTemplate jdbcTemplate;
-
-	@Autowired
-	CSVFormat csvFormat = CSVFormat.DEFAULT;
 
 	CountStrategy countStrategy;
 
@@ -126,18 +117,17 @@ public class Extractor {
 
 	public void run(final ExtractIo io, final ExtractorQuery query) {
 		final BackgroundJobMonitor monitor = io.getMonitor();
-		final CSVPrinter csvPrinter;
+		final CSVFileWriter csvWriter;
 		try {
-			csvPrinter = csvFormat.print(io.writer());
+			csvWriter = new CSVFileWriter(io.writer());
 		} catch (final IOException e) {
 			LOGGER.error("Could not create writer", e);
 			throw new ExtractorException("Could not create writer", e);
 		}
 		final RowPrinter printer = new RowPrinter() {
-
 			@Override
-			public void printRow(final Iterable<?> values) throws IOException {
-				csvPrinter.printRecord(values);
+			public void printRow(final Iterable<?> values) {
+				csvWriter.writeFields(values);
 			}
 		};
 
@@ -156,11 +146,7 @@ public class Extractor {
 			monitor.reportProgressAbsolute(0);
 			rowFetcher.fetch(query, monitor, printer, rowProcessor);
 		} finally {
-			try {
-				csvPrinter.close();
-			} catch (final IOException e) {
-				LOGGER.error("Could not close csv writer", e);
-			}
+			csvWriter.close();
 		}
 	}
 

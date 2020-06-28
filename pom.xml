@@ -36,8 +36,8 @@
 		<!-- dependencies -->
 		<background-jobs.version>1.25</background-jobs.version>
 		<commons-cli.version>1.4</commons-cli.version>
-		<commons-csv.version>1.8</commons-csv.version>
 		<commons-io.version>2.7</commons-io.version>
+		<csvfile.version>3.0-SNAPSHOT</csvfile.version>
 		<jackson.version>2.11.1</jackson.version>
 		<log4j.version>2.13.3</log4j.version>
 		<spring.version>4.3.27.RELEASE</spring.version>
@@ -249,11 +249,6 @@
 					<scope>test</scope>
 				</dependency>
 				<dependency>
-					<groupId>org.apache.commons</groupId>
-					<artifactId>commons-csv</artifactId>
-					<version>${commons-csv.version}</version>
-				</dependency>
-				<dependency>
 					<groupId>org.apache.logging.log4j</groupId>
 					<artifactId>log4j-api</artifactId>
 					<version>${log4j.version}</version>
@@ -280,6 +275,11 @@
 					<groupId>org.evolvis.tartools</groupId>
 					<artifactId>background-jobs</artifactId>
 					<version>${background-jobs.version}</version>
+				</dependency>
+				<dependency>
+					<groupId>org.evolvis.tartools</groupId>
+					<artifactId>csvfile</artifactId>
+					<version>${csvfile.version}</version>
 				</dependency>
 				<dependency>
 					<groupId>org.mockito</groupId>
