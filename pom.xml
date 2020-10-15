@@ -146,11 +146,24 @@
 				<artifactId>maven-assembly-plugin</artifactId>
 				<executions>
 					<execution>
-						<id>dist-assembly</id>
+						<id>dist-assembly-clijar</id>
 						<phase>package</phase>
 						<goals>
 							<goal>single</goal>
 						</goals>
+						<configuration>
+							<descriptors>
+								<descriptor>src/main/ancillary/assembly.xml</descriptor>
+							</descriptors>
+							<archive>
+								<manifest>
+									<mainClass>de.tarent.extract.Main</mainClass>
+								</manifest>
+								<manifestEntries>
+									<Multi-Release>true</Multi-Release>
+								</manifestEntries>
+							</archive>
+						</configuration>
 					</execution>
 					<execution>
 						<id>dist-assembly-depsrc</id>
@@ -166,19 +179,6 @@
 						</configuration>
 					</execution>
 				</executions>
-				<configuration>
-					<descriptors>
-						<descriptor>src/main/ancillary/assembly.xml</descriptor>
-					</descriptors>
-					<archive>
-						<manifest>
-							<mainClass>de.tarent.extract.Main</mainClass>
-						</manifest>
-						<manifestEntries>
-							<Multi-Release>true</Multi-Release>
-						</manifestEntries>
-					</archive>
-				</configuration>
 			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
